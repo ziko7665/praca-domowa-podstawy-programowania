@@ -1,3 +1,5 @@
+// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
+
 #include <iostream> 
 #include <fstream>
 #include <iomanip>
@@ -7,6 +9,7 @@
 #include <vector>
 #include <windows.h>
 #include "svg.h"
+#include "funkcje.h"
 
 using namespace std;
 
@@ -16,83 +19,78 @@ void gra_XO();
 void gra_XO_PC();
 void gra_warcaby();
 void pomoc();
-void wysrodkuj(const string& tekst); // Funkcja do wysrodkowania tekstu w konsoli
+
+
 
 
 int main() {
     char opcje;
     srand(time(nullptr));
-
+     system("cls");
     // Menu glowne
         do
     {
-        wysrodkuj( "\\\\\\\\\\ MENU GLOWNE ///////"); 
-        wysrodkuj("- (1) Podstawowe SVG - "); 
-        wysrodkuj("- (2) Zawansowane SVG - ");
-        wysrodkuj("- (3) Gra w kolko i krzyzyk - ");
-        wysrodkuj("- (4) Gra w kolko i krzyzyk z komputerem - ");
-        wysrodkuj("- (5) Gra w warcaby - ");
-        wysrodkuj("- (6) Pomoc - ");
-        wysrodkuj("- (X) Wyjscie z programu - ");
+        wys( "\\\\\\\\\\ MENU GLOWNE ///////"); 
+        wys("- (1) Podstawowe SVG - "); 
+        wys("- (2) Zawansowane SVG - ");
+        wys("- (3) Gra w kolko i krzyzyk - ");
+        wys("- (4) Gra w kolko i krzyzyk z komputerem - ");
+        wys("- (5) Gra w warcaby - ");
+        wys("- (6) Pomoc - ");
+        wys("- (X) Wyjscie z programu - ");
         cout << "Wybierz opcje: " << endl;
         cin >> opcje;
 
             switch (opcje) 
         {
             case '1':
+                 system("cls");
                 svg_pod();
+                 system("cls");
                 break;
             case '2': 
+                 system("cls");
                 svg_zaw();
+                 system("cls");
                 break;
             case '3':
+                 system("cls");
                 gra_XO();
+                 system("cls");
                 break;
             case '4':
+                 system("cls");
                 gra_XO_PC();
+                 system("cls");
                 break;
             case '5':
+                 system("cls");
                 gra_warcaby();
+                 system("cls");
                 break;
             case '6':   
+                system("cls");
                 pomoc();
+                 system("cls");
                 break;
             case 'X':
             case 'x':
                 cout << "Wyjscie z programu." << endl;
                 return 0;
             default:
+                system("cls");
                 cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
                 break;
 
         
         }
     } while(opcje != 'X' && opcje != 'x');
-    
+     system("cls");
     return 0;
 }
 
-int szerokosc_konsoli() // Funcja sprawdzenia szerokosci konsoli 
-{
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    return csbi.srWindow.Right - csbi.srWindow.Left + 1;
-}
 
-void wysrodkuj(const string& tekst) 
-{
-  int szerokosc = szerokosc_konsoli();
-  int dlugosc = tekst.length();
-  int spacje = (szerokosc - dlugosc) / 2;
-  if(spacje < 0) spacje = 0; 
-    cout << string(spacje, ' ') << tekst << endl;
-}
 
-void svg_zaw() 
-{
-    cout << "Funkcja svg_zaw zostala wywolana." << endl;
-    // Implementacja funkcji zaawansowanego SVG
-}
 void gra_XO() 
 {
     cout << "Funkcja gra_XO zostala wywolana." << endl;
