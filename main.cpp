@@ -30,13 +30,13 @@ int main() {
     // Menu glowne
         do
     {
-        wys( "\\\\\\\\\\ MENU GLOWNE ///////"); 
+        wys( "\\\\\\\\\\\\\\\\ MENU GLOWNE ////////"); 
         wys("- (1) Podstawowe SVG - "); 
         wys("- (2) Zawansowane SVG - ");
         wys("- (3) Gra w kolko i krzyzyk - ");
         wys("- (4) Gra w kolko i krzyzyk z komputerem - ");
         wys("- (5) Gra w warcaby - ");
-        wys("- (6) Pomoc - ");
+        wys("- (H) Pomoc - ");
         wys("- (X) Wyjscie z programu - ");
         cout << "Wybierz opcje: " << endl;
         cin >> opcje;
@@ -68,8 +68,9 @@ int main() {
                 gra_warcaby();
                  system("cls");
                 break;
-            case '6':   
-                system("cls");
+            case 'H':
+            case 'h':
+                 system("cls");
                 pomoc();
                  system("cls");
                 break;
