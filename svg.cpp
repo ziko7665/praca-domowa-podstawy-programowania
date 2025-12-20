@@ -31,6 +31,7 @@ void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone
 
     plik << "</svg>\n";
     plik.close();
+    system("cls");
     cout << "Czy chcesz otworzyc swoj pusty plik svg? (tak/nie)" << endl; 
     while (true)
     {
@@ -60,8 +61,7 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
 {
 
         
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    
     wys("Pole pliku svg to 1500x1500"); // wysrodkowanie tekstu
     pauza(); // czekanie na reakcje
     system("cls"); // czyszczenie konsoli 
@@ -244,30 +244,33 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
 
 string wybor_koloru()       //Wybor koloru dla ksztaltu
 {
-    int nrkoloru;
+    string nrkoloru;
     string kolor; 
-        cout << "(1) czerwony" << endl; 
-        cout << "(2) niebieski" << endl; 
-        cout << "(3) zielony" << endl; 
-        cout << "(4) czarny" << endl; 
-        cout << "(5) secret" << endl;
-        cin >> nrkoloru;
-        
-         switch (nrkoloru)
+    cout << "(1) czerwony" << endl; 
+    cout << "(2) niebieski" << endl; 
+    cout << "(3) zielony" << endl; 
+    cout << "(4) czarny" << endl; 
+    cout << "(5) secret" << endl;
+    while(true)
+    {
+        getline(cin >> ws, nrkoloru);
+        if(nrkoloru.size() == 1 && (nrkoloru[0] >= '1' && nrkoloru[0] <= '5'))
+        {
+         switch (nrkoloru[0])
             {
-                case 1:
-                    kolor = "red";
+                case '1':
+                    kolor = "red";  
                     break;
-                case 2: 
+                case '2': 
                     kolor = "blue";
                     break;
-                 case 3:
+                 case '3':
                     kolor = "green";
                     break;
-                case 4:
+                case '4':
                     kolor = "black";
                     break;
-                case 5:
+                case '5':
                 {
                     vector<string> sekretnykolor = 
                     {   "purple",
@@ -281,13 +284,21 @@ string wybor_koloru()       //Wybor koloru dla ksztaltu
                         "deeppink",
                         "orange",
                     };
-                    int losowa = rand() % 10;
+                    int losowa = rand() % sekretnykolor.size();
                     kolor = sekretnykolor[losowa];
                     break;
                 }
                 default:
                     cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
-                    break;
+                    continue;
             }
+            return kolor;
+        }
+        else
+        {
+            cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+            continue;
+        }
+    }
     return kolor;
 }

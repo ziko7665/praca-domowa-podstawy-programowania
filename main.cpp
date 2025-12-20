@@ -9,74 +9,75 @@
 #include <vector>
 #include <windows.h>
 #include "svg.h"
+#include "XO.h"
 #include "funkcje.h"
 
 using namespace std;
 
 
-void svg_zaw();
-void gra_XO();
-void gra_XO_PC();
+
+
 void gra_warcaby();
-void pomoc();
+
 
 
 
 
 int main() {
-    char opcje;
+    string opcje;
     srand(time(nullptr));
      system("cls");
     // Menu glowne
         do
     {
         wys( "\\\\\\\\\\\\\\\\ MENU GLOWNE ////////"); 
-        wys("- (1) Podstawowe SVG - "); 
-        wys("- (2) Zawansowane SVG - ");
-        wys("- (3) Gra w kolko i krzyzyk - ");
-        wys("- (4) Gra w kolko i krzyzyk z komputerem - ");
-        wys("- (5) Gra w warcaby - ");
-        wys("- (H) Pomoc - ");
-        wys("- (X) Wyjscie z programu - ");
+        wys("- (1) Podstawowe SVG -"); 
+        wys("- (2) Zawansowane SVG -");
+        wys("- (3) Gra w kolko i krzyzyk -");
+        wys("- (4) Gra w warcaby - ");
+        wys("- (H) Pomoc -");
+        wys("- (X) Wyjscie z programu -");
         cout << "Wybierz opcje: " << endl;
-        cin >> opcje;
+        getline(cin >> ws, opcje);
+        if(opcje.size() == 1 && (opcje[0] == '1' || opcje[0] == '2' || opcje[0] == '3' || opcje[0] == '4' || opcje[0] == 'H' || opcje[0] == 'h' || opcje[0] == 'X' || opcje[0] == 'x'))
+        {
 
-            switch (opcje) 
+            switch (opcje[0]) 
         {
             case '1':
                  system("cls");
                 svg_pod();
                  system("cls");
                 break;
+
             case '2': 
                  system("cls");
                 svg_zaw();
                  system("cls");
                 break;
+
             case '3':
                  system("cls");
-                gra_XO();
+                menu_XO();
                  system("cls");
                 break;
+
             case '4':
-                 system("cls");
-                gra_XO_PC();
-                 system("cls");
-                break;
-            case '5':
                  system("cls");
                 gra_warcaby();
                  system("cls");
                 break;
+
             case 'H':
             case 'h':
                  system("cls");
                 pomoc();
                  system("cls");
                 break;
+
             case 'X':
             case 'x':
-                cout << "Wyjscie z programu." << endl;
+                system("cls");
                 return 0;
             default:
                 system("cls");
@@ -85,30 +86,23 @@ int main() {
 
         
         }
-    } while(opcje != 'X' && opcje != 'x');
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+    } while(opcje[0] != 'X' && opcje[0] != 'x');
      system("cls");
     return 0;
 }
 
 
 
-void gra_XO() 
-{
-    cout << "Funkcja gra_XO zostala wywolana." << endl;
-    // Implementacja funkcji gry XO
-}
-void gra_XO_PC() 
-{
-    cout << "Funkcja gra_XO_PC zostala wywolana." << endl;
-    // Implementacja funkcji gry XO z komputerem
-}
+
 void gra_warcaby() 
 {
-    cout << "Funkcja gra_warcaby zostala wywolana." << endl;
-    // Implementacja funkcji gry w warcaby
-}
-void pomoc() 
-{
-    cout << "Funkcja pomoc zostala wywolana." << endl;
-    // Implementacja funkcji pomocy
+    cout << "Funkcja gra_warcaby" << endl;
+    pauza();
+
 }
