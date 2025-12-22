@@ -3,7 +3,7 @@
 
 #include <string>
 
-int szerokosc_konsoli();
+int szer_cmd();
 void wys(const std::string& tekst);
 int losuj_oddo(int min, int max);
 int wczytaj_int(const std::string& komunikat);
@@ -13,5 +13,6 @@ void czysc();
 void pomoc_XO();
 void pomoc_Warcaby();
 void pomoc_ogolna();
+std::string wybor_koloru(); //Wybor koloru dla ksztaltu
 
 #endif

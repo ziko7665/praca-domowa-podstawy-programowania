@@ -13,8 +13,8 @@ using namespace std;
 void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone 
 {
     string nazwapliku;
-    cout << "Podaj nazwe pliku svg: " << endl; 
-    cin >> nazwapliku; // pobieranie od uzytkownika nazwy pliku 
+    cout << "Podaj nazwe pliku svg: " << endl;
+    getline(cin >> ws, nazwapliku); // pobieranie od uzytkownika nazwy pliku 
     nazwapliku += ".svg"; 
 
     ofstream plik(nazwapliku); 
@@ -36,14 +36,14 @@ void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone
     while (true)
     {
     string zgoda;
-    cin >> zgoda; 
-    if(zgoda == "tak")
+    getline(cin >> ws, zgoda); 
+    if(zgoda.size() >= 3 && zgoda.substr(0,3) == "tak")
     {
         string cmd = "start " + nazwapliku;
         system(cmd.c_str());
         break;
      }
-     else if (zgoda == "nie")
+     else if (zgoda.size() >= 3 && zgoda.substr(0,3) == "nie")
      {
         break;
      }      
@@ -68,7 +68,7 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
     
     string nazwapliku;
     cout << "Podaj nazwe pliku svg: " << endl; 
-    cin >> nazwapliku; // pobieranie od uzytkownika nazwy pliku 
+    getline(cin >> ws, nazwapliku); // pobieranie od uzytkownika nazwy pliku 
     nazwapliku += ".svg"; 
 
     ofstream plik(nazwapliku); 
@@ -87,7 +87,7 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
         cx = wczytaj_int("Podaj wspolrzedna x srodka kola: "); // pozwalanie na wczystanie jedynie liczby
         cy = wczytaj_int("Podaj wspolrzedna y srodka kola: ");
         r = wczytaj_int("Podaj promien okregu: ");
-        cout << "Wybierz kolor dla okregu:" << endl; 
+        cout << "Wybierz kolor dla kola:" << endl; 
         ckolor = wybor_koloru();
         
         plik << "<circle cx=\"" << cx;
@@ -221,14 +221,15 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
     while (true)
     {
     string zgoda;
-    cin >> zgoda; 
-    if(zgoda == "tak")
+    getline(cin >> ws, zgoda); 
+
+    if(zgoda.size() >= 3 && zgoda.substr(0,3) == "tak")
     {
         string cmd = "start " + nazwapliku;
         system(cmd.c_str());
         break;
      }
-     else if (zgoda == "nie")
+     else if (zgoda.size() >= 3 && zgoda.substr(0,3) == "nie")
      {
         break;
      }      
@@ -242,63 +243,4 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
 }
 
 
-string wybor_koloru()       //Wybor koloru dla ksztaltu
-{
-    string nrkoloru;
-    string kolor; 
-    cout << "(1) czerwony" << endl; 
-    cout << "(2) niebieski" << endl; 
-    cout << "(3) zielony" << endl; 
-    cout << "(4) czarny" << endl; 
-    cout << "(5) secret" << endl;
-    while(true)
-    {
-        getline(cin >> ws, nrkoloru);
-        if(nrkoloru.size() == 1 && (nrkoloru[0] >= '1' && nrkoloru[0] <= '5'))
-        {
-         switch (nrkoloru[0])
-            {
-                case '1':
-                    kolor = "red";  
-                    break;
-                case '2': 
-                    kolor = "blue";
-                    break;
-                 case '3':
-                    kolor = "green";
-                    break;
-                case '4':
-                    kolor = "black";
-                    break;
-                case '5':
-                {
-                    vector<string> sekretnykolor = 
-                    {   "purple",
-                        "darkorange",
-                        "brown",
-                        "darkgreen",
-                        "crimson",
-                        "navy",
-                        "teal",
-                        "gold",
-                        "deeppink",
-                        "orange",
-                    };
-                    int losowa = rand() % sekretnykolor.size();
-                    kolor = sekretnykolor[losowa];
-                    break;
-                }
-                default:
-                    cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
-                    continue;
-            }
-            return kolor;
-        }
-        else
-        {
-            cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
-            continue;
-        }
-    }
-    return kolor;
-}
+

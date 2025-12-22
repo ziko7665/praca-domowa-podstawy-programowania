@@ -2,11 +2,13 @@
 #include <windows.h>
 #include <iostream>
 #include <limits>
+#include <string>
+#include <vector>
 
 
 
 
-int szerokosc_konsoli() // Sprawdza szerokosc konsoli aby wykozystac to przy wysrodkowaniu
+int szer_cmd() // Sprawdza szerokosc konsoli aby wykozystac to przy wysrodkowaniu
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -15,7 +17,7 @@ int szerokosc_konsoli() // Sprawdza szerokosc konsoli aby wykozystac to przy wys
 
 void wys(const std::string& tekst) // wysrodkowuje napis
 {
-    int szerokosc = szerokosc_konsoli();
+    int szerokosc = szer_cmd();
     int dlugosc = tekst.length();
     int spacje = (szerokosc - dlugosc) / 2;
     if (spacje < 0) spacje = 0;
@@ -112,6 +114,71 @@ void pomoc()
 }
 }
 
+//=====================================================================================================================================================================
+
+std::string wybor_koloru()       //Wybor koloru dla ksztaltu
+{
+    std::string nrkoloru;
+    std::string kolor; 
+    std::cout << "(1) czerwony" << std::endl; 
+    std::cout << "(2) niebieski" << std::endl; 
+    std::cout << "(3) zielony" << std::endl; 
+    std::cout << "(4) czarny" << std::endl; 
+    std::cout << "(5) secret" << std::endl;
+    while(true)
+    {
+        std::getline(std::cin >> std::ws, nrkoloru);
+        if(nrkoloru.size() == 1 && (nrkoloru[0] >= '1' && nrkoloru[0] <= '5'))
+        {
+         switch (nrkoloru[0])
+            {
+                case '1':
+                    kolor = "red";  
+                    break;
+                case '2': 
+                    kolor = "blue";
+                    break;
+                 case '3':
+                    kolor = "green";
+                    break;
+                case '4':
+                    kolor = "black";
+                    break;
+                case '5':
+                {
+                    std::vector<std::string> sekretnykolor = 
+                    {   "purple",
+                        "darkorange",
+                        "brown",
+                        "darkgreen",
+                        "crimson",
+                        "navy",
+                        "teal",
+                        "gold",
+                        "deeppink",
+                        "orange",
+                    };
+                    int losowa = rand() % sekretnykolor.size();
+                    kolor = sekretnykolor[losowa];
+                    break;
+                }
+                default:
+                    std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
+                    continue;
+            }
+            return kolor;
+        }
+        else
+        {
+            std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
+            continue;
+        }
+    }
+    return kolor;
+}
+
+//=====================================================================================================================================================================
+// Pomoc
  void pomoc_XO()
  {
     wys("INSTRUKCJA DO GRY KOLKO I KRZYZYK");
@@ -145,11 +212,11 @@ void pomoc()
    
     std::cout << std::endl;
     wys("PLIK SVG DO GRY:");
-    wys("W trakcie realizacji");
-    /*wys("W trakcie gry generowany jest plik SVG,");
+    
+    wys("W trakcie gry generowany jest plik SVG,");
     wys("ktory wizualizuje aktualny stan planszy gry w kolko i krzyzyk.");
     wys("Plik ten jest nadpisywany przy kazdym ruchu gracza i nalezy odswierzyc, aby zobaczyć zmiany.");
-    wys("Jezeli chcesz zobaczyc plik SVG, znajdziesz go w katalogu z programem pod nazwa 'XO.svg'.");*/
+    wys("Jezeli chcesz zobaczyc plik SVG, znajdziesz go w katalogu z programem pod nazwa 'XO.svg'.");
     std::cout << std::endl;
     wys("MILEJ ZABAWY!!!");
     std::cout << std::endl << std::endl;
