@@ -4,7 +4,9 @@
 #include <ctime>
 #include <vector>
 #include <limits>
+#include <algorithm>
 #include <windows.h>
+#include <cctype>
 #include "svg.h"
 #include "funkcje.h"
 using namespace std; 
@@ -15,6 +17,7 @@ void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone
     string nazwapliku;
     cout << "Podaj nazwe pliku svg: " << endl;
     getline(cin >> ws, nazwapliku); // pobieranie od uzytkownika nazwy pliku 
+    utnij_bialy_koniec(nazwapliku);
     nazwapliku += ".svg"; 
 
     ofstream plik(nazwapliku); 
@@ -32,30 +35,17 @@ void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone
     plik << "</svg>\n";
     plik.close();
     system("cls");
-    cout << "Czy chcesz otworzyc swoj pusty plik svg? (tak/nie)" << endl; 
-    while (true)
+    bool zgodasvg = pytanie_tak_nie("Czy chcesz otworzyc swoj pusty plik svg? (tak/nie)");
+    if(zgodasvg)
     {
-    string zgoda;
-    getline(cin >> ws, zgoda); 
-    if(zgoda.size() >= 3 && zgoda.substr(0,3) == "tak")
-    {
-        string cmd = "start " + nazwapliku;
+        string cmd = "start \"\" \"" + nazwapliku + "\"";
         system(cmd.c_str());
-        break;
-     }
-     else if (zgoda.size() >= 3 && zgoda.substr(0,3) == "nie")
-     {
-        break;
-     }      
-     else
-     {
-        cout << "Wpisz tak/nie" << endl; 
-
-     }
     }
+
      system("cls");
 }
 
+//=======================================================================================================================================================================
 
 void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza 
 {
@@ -69,6 +59,7 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
     string nazwapliku;
     cout << "Podaj nazwe pliku svg: " << endl; 
     getline(cin >> ws, nazwapliku); // pobieranie od uzytkownika nazwy pliku 
+    utnij_bialy_koniec(nazwapliku);
     nazwapliku += ".svg"; 
 
     ofstream plik(nazwapliku); 
@@ -163,10 +154,10 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
         y2 = wczytaj_int("Podaj wspolrzedna y drugiego konca linii: ");
         szerokosc = wczytaj_int("Podaj szerokosc linii: ");
 
-        int llg = min(x1, x2) - szerokosc/2; // lewa granica linii 
-        int lpg = max(x1, x2) + szerokosc/2; // prawa granica linii 
-        int lgg = min(y1, y2) - szerokosc/2; // gorna granica linii 
-        int ldg = max(y1, y2) + szerokosc/2; // dolna granica linni 
+        int llg = std::min(x1, x2) - szerokosc/2; // lewa granica linii 
+        int lpg = std::max(x1, x2) + szerokosc/2; // prawa granica linii 
+        int lgg = std::min(y1, y2) - szerokosc/2; // gorna granica linii 
+        int ldg = std::max(y1, y2) + szerokosc/2; // dolna granica linni 
 
         bool line_vs_circle=    // brak kolizja z kolem 
         (      
@@ -217,28 +208,14 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
     plik << "</svg>\n";
     plik.close();    
     system("cls");
-     cout << "Czy chcesz otworzyc swoj plik svg? (tak/nie)" << endl; 
-    while (true)
+    bool zgodasvg = pytanie_tak_nie("Czy chcesz otworzyc swoj plik svg? (tak/nie)");
+    if(zgodasvg)
     {
-    string zgoda;
-    getline(cin >> ws, zgoda); 
-
-    if(zgoda.size() >= 3 && zgoda.substr(0,3) == "tak")
-    {
-        string cmd = "start " + nazwapliku;
+        string cmd = "start \"\" \"" + nazwapliku + "\"";
         system(cmd.c_str());
-        break;
-     }
-     else if (zgoda.size() >= 3 && zgoda.substr(0,3) == "nie")
-     {
-        break;
-     }      
-     else
-     {
-        cout << "Wpisz tak/nie" << endl; 
-
-     }
+        return;
     }
+ 
      system("cls");
 }
 

@@ -8,6 +8,7 @@
 #include <ctime>
 #include <vector>
 #include <windows.h>
+#include <cctype>
 #include "svg.h"
 #include "XO.h"
 #include "funkcje.h"
@@ -71,7 +72,7 @@ int main() {
             case 'H':
             case 'h':
                  system("cls");
-                pomoc();
+                pomoc_menu();
                  system("cls");
                 break;
 

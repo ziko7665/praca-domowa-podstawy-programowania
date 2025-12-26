@@ -1,4 +1,0 @@
-# Praca domowa Podstawy Programowania 
-
-
-

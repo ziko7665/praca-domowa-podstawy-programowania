@@ -1,9 +1,11 @@
 #include "funkcje.h"
+#include <algorithm>
 #include <windows.h>
 #include <iostream>
 #include <limits>
 #include <string>
 #include <vector>
+#include <cctype>
 
 
 
@@ -15,6 +17,8 @@ int szer_cmd() // Sprawdza szerokosc konsoli aby wykozystac to przy wysrodkowani
     return csbi.srWindow.Right - csbi.srWindow.Left + 1;
 }
 
+//=====================================================================================================================================================================
+
 void wys(const std::string& tekst) // wysrodkowuje napis
 {
     int szerokosc = szer_cmd();
@@ -24,10 +28,14 @@ void wys(const std::string& tekst) // wysrodkowuje napis
     std::cout << std::string(spacje, ' ') << tekst << std::endl;
 }
 
+//=====================================================================================================================================================================
+
 int losuj_oddo(int min, int max) // losuje liczbe od do 
 {
     return min + rand() % (max - min + 1);
 }
+
+//=====================================================================================================================================================================
 
 int wczytaj_int(const std::string& komunikat) // Sprawdza czy wpisalismy liczbe
 {
@@ -36,15 +44,18 @@ int wczytaj_int(const std::string& komunikat) // Sprawdza czy wpisalismy liczbe
     {
         std::cout << komunikat;
         if (std::cin >> x)
-        {
-            return x;              
+        {   
+            return x;  
+                        
+
         }
 
         std::cout << "To nie jest liczba, sprobuj jeszcze raz" << std::endl;
-
         czysc();
     }
 }
+
+//=====================================================================================================================================================================
 
 void pauza() // Wola Enter aby kontynuowac
 {
@@ -54,22 +65,72 @@ void pauza() // Wola Enter aby kontynuowac
     std::getline(std::cin, linia);
 }
 
+//=====================================================================================================================================================================
+
 void czysc() // Czysci bledne dane z wejscia
 {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void pomoc()
+//=====================================================================================================================================================================
+
+void utnij_bialy_koniec(std::string& tekst) // Usuwa biale znaki z konca stringa 
+{   
+    
+    while(!tekst.empty() && std ::isspace(tekst.back()))
+    {
+        tekst.pop_back();
+    }
+    
+
+}
+
+//=====================================================================================================================================================================
+
+bool pytanie_tak_nie(const std::string pytanie) //Funkcja na pytania tak/nie
+{
+    std::string tn;
+    std::cout << pytanie << std::endl; 
+    while(true)
+    {   
+        
+        std::getline(std::cin >> std::ws, tn);
+        utnij_bialy_koniec(tn);
+        for(int i = 0; i < tn.length(); i++)
+        {
+            tn[i] = std::tolower(tn[i]);
+        }
+        if( tn == "tak")
+        {
+            return true;
+        }
+        else if( tn == "nie")
+        {
+            return false;
+        }
+        else 
+        {
+            std::cout << "Wpisz tak/nie: ";
+        }
+
+
+    }
+}
+
+//=====================================================================================================================================================================
+
+void pomoc_menu()
 {
     system("cls");
        while(true)
     {
     std::string tryb;
     wys("\\\\\\\\\\\\\\\\ POMOC ////////");
-    wys("- (1) Gra w Kolko i Krzyzyk -");
-    wys("- (2) Gra w Warcaby -");
-    wys("- (3) SVG -");
+    wys("- (1) Pod. i Zaw. SVG -");
+    wys("- (2) Gra w Kolko i Krzyzyk -");
+    wys("- (3) Gra w Warcaby -");
+    wys("- (4) Ogolne informacje -");
     wys("- (X) Powrot do MENU -");
     std::cout << "Wybierz opcje: "; 
     std::getline(std::cin >> std::ws, tryb);
@@ -80,17 +141,23 @@ void pomoc()
     {
         case '1':
             system("cls");
-            pomoc_XO();
+            pomoc_SVG();
             system("cls");
-            break;;
+            break;
 
         case '2':
+            system("cls");
+            pomoc_XO();
+            system("cls");
+            break;
+
+        case '3':
             system("cls");
             pomoc_Warcaby();
             system("cls");
             break;
 
-        case '3':
+        case '4':
             system("cls");
             pomoc_ogolna();
             system("cls");
@@ -116,7 +183,7 @@ void pomoc()
 
 //=====================================================================================================================================================================
 
-std::string wybor_koloru()       //Wybor koloru dla ksztaltu
+std::string wybor_koloru() //Wybor koloru dla ksztaltu
 {
     std::string nrkoloru;
     std::string kolor; 
@@ -178,19 +245,53 @@ std::string wybor_koloru()       //Wybor koloru dla ksztaltu
 }
 
 //=====================================================================================================================================================================
-// Pomoc
- void pomoc_XO()
+void pomoc_SVG() // Pomoc/informacje do podstawowego i zaawansowanego SVG
+{
+    system("cls");
+    wys("### INSTRUKCJA DO SVG ###");
+    std::cout << std::endl;
+
+    wys("# SVG PODSTAWOWE #");
+    std::cout << std::endl;
+    wys("Program prosi o nazwe pliku i tworzy puste SVG z naglowkiem i <svg>.");
+    wys("Na koncu plik jest zamykany </svg> i pyta uzytkownika czy ma otworzyc plik w przegladarce.");
+    std::cout << std::endl;
+
+    wys("# SVG ZAAWANSOWANE #");
+    std::cout << std::endl;
+    wys("Program tworzy SVG i rysuje trzy elementy: kolo, prostokat i linie.");
+    wys("Dla kazdej figury trzeba podac parametry (np. wspolrzedne, rozmiar, kolor).");
+    wys("Figury sa rysowane na polu 1500x1500");
+    wys("Trzeba pamietac ze podawane wspolrzedne sa liczone od lewego gornego rogu pola");
+    wys("Jesli elementy nachodza na siebie, program poprosi o ponowne podanie danych.");
+    std::cout << std::endl;
+
+    wys("# NAZWY PLIKOW #");
+    std::cout << std::endl;
+    wys("Nazwy moga miec spacje, ale lepiej dawac proste nazwy typu rysunek.svg.");
+    wys("Plik zapisuje sie w folderze, w ktorym jest program");
+    std::cout << std::endl;
+
+    wys("# WAZNE #");
+    std::cout << std::endl;
+    wys("Jesli przegladarka nie pokazuje zmian, odswiez strone (F5).");
+    std::cout << std::endl;
+    std::cout << std::endl;
+    pauza();
+}
+
+ void pomoc_XO() // Pomoc do gru w kolko i krzyzyk
  {
-    wys("INSTRUKCJA DO GRY KOLKO I KRZYZYK");
+    wys("### INSTRUKCJA DO GRY KOLKO I KRZYZYK ###");
     std::cout << std::endl;
     wys("- Gra toczy sie na planszy 3x3 pola.");
     wys("- Gracze lub gracz i komputer, na zmiane wybieraja pola na planszy, aby postawic swoj znak (Kolo lub Krzyzyk).");
     wys("- Celem gry jest ustawienie trzech swoich znakow w linii poziomej, pionowej lub ukosnej.");
+    wys("- Gracz ktoremu uplynie czas, przegrywa.");
     wys("- Aby wybrac pole, nalezy wpisac liczbe od 1 do 9, odpowiadajaca niezajetemu polu na planszy.");
     wys("- Gracz O zawsze zaczyna jako pierwszy.");
     std::cout << std::endl;
     wys("Po lewej stronie znajduje sie numeracja pol:");
-    wys("A pod nia informacja, ktory gracz wykonuje ruch.");
     std::cout << std::endl;
     wys("1 | 2 | 3");
     wys("---+---+---");
@@ -198,6 +299,7 @@ std::string wybor_koloru()       //Wybor koloru dla ksztaltu
     wys("---+---+---");
     wys("7 | 8 | 9");
     std::cout << std::endl;
+    wys("Pod znajduje sie informacja, ktory gracz wykonuje ruch.");
     wys("Cyfra w polu oznacza ze jest ono wolne.");
     wys("Gdy gracz wybierze pole, numer zniknie, co oznacza ze pole jest juz zajete.");
     std::cout << std::endl;
@@ -209,28 +311,33 @@ std::string wybor_koloru()       //Wybor koloru dla ksztaltu
     wys("---+---+---");
     wys("   |   |   ");
     std::cout << std::endl;
-   
+    wys("Po prawej stronie wyswietla sie ile czasu zostalo danemu graczowi.");
+    wys("Czas dla kazdego z graczy wynosi on 30s.");
     std::cout << std::endl;
-    wys("PLIK SVG DO GRY:");
-    
+    wys("Czas gracza O: 0:30");
+    wys("Czas gracza X: 0:30");
+    std::cout << std::endl;
+    wys("W przypadku trybu Gracz VS PC, czas wyswietla sie tylko dla gracza.");
+    std::cout << std::endl;
+    wys("# PLIK SVG DO GRY #");
     wys("W trakcie gry generowany jest plik SVG,");
     wys("ktory wizualizuje aktualny stan planszy gry w kolko i krzyzyk.");
     wys("Plik ten jest nadpisywany przy kazdym ruchu gracza i nalezy odswierzyc, aby zobaczyć zmiany.");
-    wys("Jezeli chcesz zobaczyc plik SVG, znajdziesz go w katalogu z programem pod nazwa 'XO.svg'.");
+    wys("Jezeli chcesz zobaczyc plik SVG, znajdziesz go w folderze z programem pod nazwa 'XO.svg'.");
     std::cout << std::endl;
     wys("MILEJ ZABAWY!!!");
     std::cout << std::endl << std::endl;
     pauza();
  }
 
- void pomoc_Warcaby()
+ void pomoc_Warcaby() //Pomoc do gry w warcaby
  {
     wys("INSTRUKCJA DO GRY WARCABY");
     pauza();
  }
 
-  void pomoc_ogolna()
+  void pomoc_ogolna() // Ogolne informacje o programie 
   {
-    wys("INSTRUKCJA DO SVG");
+    wys("OGOLNE INFORMACJE");
     pauza();
   }
