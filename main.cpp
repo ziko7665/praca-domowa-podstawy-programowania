@@ -12,13 +12,14 @@
 #include "svg.h"
 #include "XO.h"
 #include "funkcje.h"
+#include "warcaby.h"
 
 using namespace std;
 
 
 
 
-void gra_warcaby();
+
 
 
 
@@ -38,7 +39,7 @@ int main() {
         wys("- (4) Gra w warcaby - ");
         wys("- (H) Pomoc -");
         wys("- (X) Wyjscie z programu -");
-        cout << "Wybierz opcje: " << endl;
+        cout << "Wybierz opcje: ";
         getline(cin >> ws, opcje);
         if(opcje.size() == 1 && (opcje[0] == '1' || opcje[0] == '2' || opcje[0] == '3' || opcje[0] == '4' || opcje[0] == 'H' || opcje[0] == 'h' || opcje[0] == 'X' || opcje[0] == 'x'))
         {
@@ -65,7 +66,7 @@ int main() {
 
             case '4':
                  system("cls");
-                gra_warcaby();
+                 warcaby();
                  system("cls");
                 break;
 
@@ -101,9 +102,4 @@ int main() {
 
 
 
-void gra_warcaby() 
-{
-    cout << "Funkcja gra_warcaby" << endl;
-    pauza();
 
-}

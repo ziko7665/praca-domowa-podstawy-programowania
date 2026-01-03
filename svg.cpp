@@ -1,3 +1,5 @@
+// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
+
 #include <iostream> 
 #include <fstream>
 #include <string> 
@@ -12,7 +14,7 @@
 using namespace std; 
 
 
-void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone 
+void svg_pod()      
 {
     string nazwapliku;
     cout << "Podaj nazwe pliku svg: " << endl;
@@ -47,7 +49,7 @@ void svg_pod()      // Generownie pustego pliku svg i otwieranie go przez strone
 
 //=======================================================================================================================================================================
 
-void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza 
+void svg_zaw() 
 {
 
         
@@ -75,7 +77,7 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
     //KOLO 
    int cx, cy, r, nrkoloru;
         string ckolor;
-        cx = wczytaj_int("Podaj wspolrzedna x srodka kola: "); // pozwalanie na wczystanie jedynie liczby
+        cx = wczytaj_int("Podaj wspolrzedna x srodka kola: "); // pozwalanie na wczytanie jedynie liczby
         cy = wczytaj_int("Podaj wspolrzedna y srodka kola: ");
         r = wczytaj_int("Podaj promien okregu: ");
         cout << "Wybierz kolor dla kola:" << endl; 
@@ -106,10 +108,10 @@ void svg_zaw( ) // Generowanie kształtów w pliku, ktore na siebie nie nachodza
         rh = wczytaj_int("Podaj wysokosc prostokata: ");
 
         //granice prostokata 
-        rlg = rx; // lewa granica prostokata
+        rlg = rx;       // lewa granica prostokata
         rpg = rx + rw;  // prawa granica prostokata 
-        rgg = ry; // gorna granica prostokata
-        rdg = ry + rh; // dolna granica prostokata
+        rgg = ry;       // gorna granica prostokata
+        rdg = ry + rh;  // dolna granica prostokata
 
         bool rect_vs_circle = 
         (

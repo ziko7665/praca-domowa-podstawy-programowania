@@ -1,3 +1,5 @@
+// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
+
 #include "funkcje.h"
 #include <algorithm>
 #include <windows.h>
@@ -10,7 +12,7 @@
 
 
 
-int szer_cmd() // Sprawdza szerokosc konsoli aby wykozystac to przy wysrodkowaniu
+int szer_cmd() 
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -19,7 +21,7 @@ int szer_cmd() // Sprawdza szerokosc konsoli aby wykozystac to przy wysrodkowani
 
 //=====================================================================================================================================================================
 
-void wys(const std::string& tekst) // wysrodkowuje napis
+void wys(const std::string& tekst) 
 {
     int szerokosc = szer_cmd();
     int dlugosc = tekst.length();
@@ -30,14 +32,14 @@ void wys(const std::string& tekst) // wysrodkowuje napis
 
 //=====================================================================================================================================================================
 
-int losuj_oddo(int min, int max) // losuje liczbe od do 
+int losuj_oddo(int min, int max) 
 {
     return min + rand() % (max - min + 1);
 }
 
 //=====================================================================================================================================================================
 
-int wczytaj_int(const std::string& komunikat) // Sprawdza czy wpisalismy liczbe
+int wczytaj_int(const std::string& komunikat) 
 {
     int x;
     while (true)
@@ -57,7 +59,7 @@ int wczytaj_int(const std::string& komunikat) // Sprawdza czy wpisalismy liczbe
 
 //=====================================================================================================================================================================
 
-void pauza() // Wola Enter aby kontynuowac
+void pauza() 
 {
     
     wys("Nacisnij Enter, aby kontynuowac");
@@ -67,7 +69,7 @@ void pauza() // Wola Enter aby kontynuowac
 
 //=====================================================================================================================================================================
 
-void czysc() // Czysci bledne dane z wejscia
+void czysc() 
 {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -75,7 +77,7 @@ void czysc() // Czysci bledne dane z wejscia
 
 //=====================================================================================================================================================================
 
-void utnij_bialy_koniec(std::string& tekst) // Usuwa biale znaki z konca stringa 
+void utnij_bialy_koniec(std::string& tekst) 
 {   
     
     while(!tekst.empty() && std ::isspace(tekst.back()))
@@ -88,7 +90,7 @@ void utnij_bialy_koniec(std::string& tekst) // Usuwa biale znaki z konca stringa
 
 //=====================================================================================================================================================================
 
-bool pytanie_tak_nie(const std::string pytanie) //Funkcja na pytania tak/nie
+bool pytanie_tak_nie(const std::string pytanie) 
 {
     std::string tn;
     std::cout << pytanie << std::endl; 
@@ -183,7 +185,7 @@ void pomoc_menu()
 
 //=====================================================================================================================================================================
 
-std::string wybor_koloru() //Wybor koloru dla ksztaltu
+std::string wybor_koloru() 
 {
     std::string nrkoloru;
     std::string kolor; 
@@ -245,7 +247,7 @@ std::string wybor_koloru() //Wybor koloru dla ksztaltu
 }
 
 //=====================================================================================================================================================================
-void pomoc_SVG() // Pomoc/informacje do podstawowego i zaawansowanego SVG
+void pomoc_SVG() 
 {
     system("cls");
     wys("### INSTRUKCJA DO SVG ###");
@@ -280,7 +282,7 @@ void pomoc_SVG() // Pomoc/informacje do podstawowego i zaawansowanego SVG
     pauza();
 }
 
- void pomoc_XO() // Pomoc do gru w kolko i krzyzyk
+ void pomoc_XO() 
  {
     wys("### INSTRUKCJA DO GRY KOLKO I KRZYZYK ###");
     std::cout << std::endl;
@@ -330,13 +332,13 @@ void pomoc_SVG() // Pomoc/informacje do podstawowego i zaawansowanego SVG
     pauza();
  }
 
- void pomoc_Warcaby() //Pomoc do gry w warcaby
+ void pomoc_Warcaby() 
  {
     wys("INSTRUKCJA DO GRY WARCABY");
     pauza();
  }
 
-  void pomoc_ogolna() // Ogolne informacje o programie 
+  void pomoc_ogolna() 
   {
     wys("OGOLNE INFORMACJE");
     pauza();

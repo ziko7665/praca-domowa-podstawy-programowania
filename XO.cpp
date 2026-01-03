@@ -1,3 +1,5 @@
+// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
+
 #include "XO.h"
 #include <iostream> 
 #include <fstream>
@@ -14,7 +16,7 @@
 using namespace std;
 
    
-void menu_XO() //Menu wyboru trybu gry w kolko i krzyzyk
+void menu_XO() 
 {
      while(true)
      {
@@ -69,7 +71,7 @@ void menu_XO() //Menu wyboru trybu gry w kolko i krzyzyk
 
 //====================================================================================================================================================================
 
-void XO_svg_plansza(char XO[3][3]) // Tworzenie pliku SVG do gry w kolko i krzyzyk
+void XO_svg_plansza(char XO[3][3]) 
     {
         ofstream plik("XO.svg");
         if(!plik.is_open())
@@ -120,7 +122,7 @@ void XO_svg_plansza(char XO[3][3]) // Tworzenie pliku SVG do gry w kolko i krzyz
 
 //====================================================================================================================================================================
 
-void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX) // Rysowanie planszy do gry w kolko i krzyzyk i licznika czasu
+void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX) 
 {
     
     int w = (szer_cmd() - 30) / 2; 
@@ -147,7 +149,7 @@ void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX)
 
 //=====================================================================================================================================================================
 
-void XO_plansza_wygrana(char XO[3][3]) // Rysowanie planszy do gry w kolko i krzyzyk przy zakonczeniu gry 
+void XO_plansza_wygrana(char XO[3][3])  
 {
     char pusteXO[3][3] = { {'1','2','3'}, {'4','5','6'}, {'7','8','9'} };
     int w = (szer_cmd() - 7) / 2; 
@@ -161,7 +163,7 @@ void XO_plansza_wygrana(char XO[3][3]) // Rysowanie planszy do gry w kolko i krz
 
 //====================================================================================================================================================================
 
-void gra_XO() //Kolko i krzyzyk Gracz vs Gracz 
+void gra_XO()  
 {
         int czas = 30;
         int czasO = czas;
@@ -228,8 +230,10 @@ void gra_XO() //Kolko i krzyzyk Gracz vs Gracz
             cout << endl;
             XO_plansza_wygrana(XO);
             cout << endl;
-            wys(":( CZAS GRACZA O SIE SKONCZYL :(");
             wys("$$$ GRACZ X WYGRYWA $$$");
+            cout << endl;
+            wys(":( CZAS GRACZA O SIE SKONCZYL :(");
+            
             break;  
         }
             else if(czasX <= 0)
@@ -239,8 +243,9 @@ void gra_XO() //Kolko i krzyzyk Gracz vs Gracz
             cout << endl;
             XO_plansza_wygrana(XO);
             cout << endl;
-            wys(":( CZAS GRACZA X SIE SKONCZYL :(");
             wys("$$$ GRACZ O WYGRYWA $$$");
+            cout << endl;
+            wys(":( CZAS GRACZA X SIE SKONCZYL :(");
             break;  
         }
     
@@ -347,7 +352,7 @@ void gra_XO() //Kolko i krzyzyk Gracz vs Gracz
 
 //====================================================================================================================================================================
 
-void gra_XO_PC() // Kolko i krzyzyk Gracz vs PC 
+void gra_XO_PC()  
 {
     
     
@@ -613,25 +618,26 @@ void gra_XO_PC() // Kolko i krzyzyk Gracz vs PC
 
 //====================================================================================================================================================================
 
-void sprawdz_czy_n_jest(vector<int>& kandydat, int n) // sprawdzenie czy dane kandydat na nastepne pole jest juz w wektorze 
+void sprawdz_czy_n_jest(vector<int>& kandydat, int n)  
 {
    bool n_juz_jest = false;
-                 for(int i = 0; i < kandydat.size(); i++)
-                 {
-                    if(kandydat[i] == n)
-                    {
-                        n_juz_jest = true;
-                        break;
-                    }
-
-                 }
-                 if(!n_juz_jest)
-                 {
-                    kandydat.push_back(n);
-                 } 
+    for(int i = 0; i < kandydat.size(); i++)
+    {
+        if(kandydat[i] == n)
+        {
+            n_juz_jest = true;
+            break;
+        }
+    }
+    if(!n_juz_jest)
+    {
+        kandydat.push_back(n);
+    } 
 }
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-bool znak_obok_znaku(char XO[3][3], char kznak, int &n) // Funkcja do sprawdzania mozliwosci postawienia znaku obok postawionego znaku 
+
+bool znak_obok_znaku(char XO[3][3], char kznak, int &n)  
 {
     vector<int> kandydat; 
     for(int w = 0; w < 3; w++)
@@ -704,7 +710,7 @@ bool znak_obok_znaku(char XO[3][3], char kznak, int &n) // Funkcja do sprawdzani
 
 //====================================================================================================================================================================
 
-bool blokuj_gracza(char XO[3][3], char gznak, int &n) // Funkcja do blokowania gracza przed wygrana
+bool blokuj_gracza(char XO[3][3], char gznak, int &n) 
 {
     int blokady[8][3] =
     {
