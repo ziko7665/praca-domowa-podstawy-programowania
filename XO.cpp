@@ -16,36 +16,46 @@
 using namespace std;
 
    
-void menu_XO() 
+void menu_XO(bool& XO_ods, bool& XO_graf, int& XO_czas) 
 {
      while(true)
      {
     string tryb;
     wys("\\\\\\\\\\\\\\\\ TRYB GRY ////////");
+    cout << endl;
     wys("- (1) Gracz VS Gracz -");
     wys("- (2) Gracz VS PC -");
+    wys("- (3) Ustawienia -");
     wys("- (H) Instrukcja do gry -");
     wys("- (X) Powrot do MENU -");
     cout << "Wybierz opcje: "; 
     getline(cin >> ws, tryb);
-    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == 'H' || tryb[0] == 'h' || tryb[0] == 'X' || tryb[0] == 'x'))
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == 'H' || tryb[0] == 'h' || tryb[0] == 'X' || tryb[0] == 'x'))
 {
 
     switch (tryb[0])
     {
         case '1':
-            gra_XO();
+            system("cls");
+            gra_XO(XO_ods, XO_graf, XO_czas);
             system("cls");
             break;;
 
         case '2':
-            gra_XO_PC();
+            system("cls");
+            gra_XO_PC(XO_ods, XO_graf, XO_czas);
+            system("cls");
+            break;
+
+        case '3':
+            system("cls");
+            ustawienia_XO(XO_ods, XO_graf, XO_czas);
             system("cls");
             break;
 
         case 'H':
         case 'h':
-            
+            system("cls");
             pomoc_menu();
             system("cls");
             break;
@@ -71,8 +81,108 @@ void menu_XO()
 
 //====================================================================================================================================================================
 
-void XO_svg_plansza(char XO[3][3]) 
+void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
+{
+ 
+    while(true)
     {
+    string tryb;
+    wys("\\\\\\\\\\\\\\\\ XO USTAWIENIA ////////");
+    cout << endl;
+    wys("- (1) Tryb Graficzny -");
+    wys("- (2) Odswierzanie -");
+    wys("- (3) Czas Graczy -");
+    wys("- (X) Powrot do MENU -");
+
+
+    
+    cout << "- Tryb Graficzny: "; 
+        if(XO_graf == true) cout << "ON" << endl;
+        else cout << "OFF" << endl;
+    cout << "- Odswierzanie: ";     
+        if(XO_ods == true) cout << "ON" << endl;
+        else cout << "OFF" << endl;
+        if(XO_czas > 0) cout << "- Czas na Gracza: " << XO_czas << "s" << endl;
+        else cout << "- Czas na Gracza: OFF" << endl;
+
+
+    cout << endl;
+    cout << "Wybierz opcje: "; 
+    getline(cin >> ws, tryb);
+    
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == 'X' || tryb[0] == 'x'))
+{
+
+    switch (tryb[0])
+    {
+        case '1':
+        {
+            system("cls");
+            cout << endl << endl;
+            XO_graf = pytanie_tak_nie("Czy chcesz grac z reprezentacja graficzna w SVG? (tak/nie)");
+            
+            system("cls");
+            break;
+        }
+
+        case '2':
+            system("cls");
+            cout << endl << endl;
+            XO_ods = pytanie_tak_nie("Czy wlaczyc odswierzanie automatyczne? (tak/nie)");
+            system("cls");
+            break;
+
+        case '3':
+            {
+                system("cls");
+                cout << endl << endl;
+                
+                while(true)
+                {
+                    cout << "Podajac 0, usuwasz limit czasu" << endl << endl;
+                    XO_czas = wczytaj_int("Podaj limit czasu dla graczy: ");
+                    czysc();
+                    if(XO_czas >= 0)
+                    {
+                        system("cls");
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    system("cls");
+                    
+                }
+                break;
+            }
+
+        case 'X':
+        case 'x':
+            return;
+
+    default:
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        break;
+    }
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+} 
+   
+    pauza(); 
+}
+
+//====================================================================================================================================================================
+
+void XO_svg_plansza(char XO[3][3], bool XO_graf, bool XO_ods) 
+    {
+        if(XO_graf)
+        {
         ofstream plik("XO.svg");
         if(!plik.is_open())
         {
@@ -116,15 +226,27 @@ void XO_svg_plansza(char XO[3][3])
         plik << "</svg>\n";
         plik.close();
         system("cls");
-       
+
+        if(XO_ods)
+        {
+            string cmd = "start XO.svg";
+            system(cmd.c_str());
+        }
+
+        }
 
     }
 
 //====================================================================================================================================================================
 
-void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX) 
+void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX, int XO_czas) 
 {
-    
+    if(XO_czas == 0)
+    {
+        czasO = -1;
+        czasX = -1;
+    }
+
     int w = (szer_cmd() - 30) / 2; 
     int x = szer_cmd() - 20;
     int sekO = czasO % 60;
@@ -136,12 +258,12 @@ void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX)
     cout << " " << graf_plansza_XO[2][0] << " | " << graf_plansza_XO[2][1] << " | " << graf_plansza_XO[2][2] << " " << setw(w) << XO[2][0] << " | " << XO[2][1] << " | " << XO[2][2] << " " << endl;
    
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)0}); //ustawianie kursora pod wypisanie czasu
-    if(czasO == 67) cout << "                   " << endl; // brak wypisania czasu jezeli czas jest rowny 67
+    if(czasO == -1) cout << "                   " << endl; // brak wypisania czasu jezeli czas jest rowny -1
     else if(sekO < 10) cout << "Czas gracza O: 0:0" << sekO << endl; 
     else cout << "Czas gracza O: 0:" << sekO << endl;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)2});
-    if(czasO == 67)SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)0}); // ustawienie kursora w miejsce czasu O gdy komputer gra jako O
-    if(czasX == 67) cout << "                   " << endl;
+    if(czasO == -1)SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)0}); // ustawienie kursora w miejsce czasu O gdy komputer gra jako O
+    if(czasX == -1) cout << "                   " << endl;
     else if(sekX < 10) cout << "Czas gracza X: 0:0" << sekX << endl;
     else cout << "Czas gracza X: 0:" << sekX << endl;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)0, (SHORT)5});
@@ -163,36 +285,42 @@ void XO_plansza_wygrana(char XO[3][3])
 
 //====================================================================================================================================================================
 
-void gra_XO()  
+void gra_XO(bool XO_ods, bool XO_graf, int XO_czas)  
 {
-        int czas = 30;
-        int czasO = czas;
-        int czasX = czas;           
+        
+        int czasO = XO_czas;
+        int czasX = XO_czas;           
         system("cls");
         char XO[3][3] = { {' ',' ',' '}, {' ',' ',' '}, {' ',' ',' '} };
-        bool zgodasvg = pytanie_tak_nie("Czy chcesz zagrac w kolko i krzyzyk w trybie graficznym? (tak/nie)");
-        if(zgodasvg)
+
+        XO_svg_plansza(XO, XO_graf, XO_ods);
+
+        if(XO_graf && XO_ods)
         {
-            XO_svg_plansza(XO);
+            
+            
+            wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
+            wys("Jesli jestes gotowy");
+            pauza();
+            system("cls");
+        }
+        else if(XO_graf && !XO_ods)
+        {
             string cmd = "start XO.svg";
             system(cmd.c_str());
             wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
             wys("Jesli jestes gotowy");
-        
             pauza();
-            system("cls");
-        }
-        else
-        {
             system("cls"); 
         }
+        else system("cls");
       
     
     
     char XO_svg[3][3] = { {' ',' ',' '}, {' ',' ',' '}, {' ',' ',' '} };
     char graf_plansza_XO[3][3] = { {'1','2','3'}, {'4','5','6'}, {'7','8','9'} };
     
-    XO_plansza(XO, graf_plansza_XO, czasO, czasX);
+    XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
    
     for(int i = 0; i < 9; i++)
 {
@@ -211,7 +339,8 @@ void gra_XO()
     auto lc_start = std::chrono::steady_clock::now(); // poczatek liczenia czasu
 
     n = wczytaj_int("Wybierz pole: "); // wczytanie n 
-
+    if(XO_czas != 0)
+    {
     auto lc_koniec = std::chrono::steady_clock::now(); // koniec liczenia czasu
     auto ile_czas = std::chrono::duration_cast<std::chrono::seconds>(lc_koniec - lc_start).count(); //sprawdzenie ile czasu gracz stawial znak
     if(i % 2 == 0) // odjecie czasu stawiania od czasu gracza
@@ -248,7 +377,7 @@ void gra_XO()
             wys(":( CZAS GRACZA X SIE SKONCZYL :(");
             break;  
         }
-    
+    }
     if(n >= 1 && n <= 9) //Stawianie znaków na planszy
     {
         int wiersz = (n - 1) / 3;
@@ -272,8 +401,8 @@ void gra_XO()
                 
             }
             system("cls");
-            XO_svg_plansza(XO);
-            XO_plansza(XO, graf_plansza_XO, czasO, czasX);
+            XO_svg_plansza(XO, XO_graf, XO_ods);
+            XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
             
         }
         else
@@ -337,7 +466,7 @@ void gra_XO()
     czysc();
     cout << endl << endl;
     
-    if(zgodasvg)
+    if(XO_graf)
     {
         wys("Przywroc okno do orginalnego rozmiaru.");
         pauza();
@@ -352,30 +481,34 @@ void gra_XO()
 
 //====================================================================================================================================================================
 
-void gra_XO_PC()  
+void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)  
 {
     
     
-        int czasO;
-        int czasX;      
+        int czasO = -1;
+        int czasX = -1;      
         system("cls");
         char XO[3][3] = { {' ',' ',' '}, {' ',' ',' '}, {' ',' ',' '} };
-        bool zgodasvg = pytanie_tak_nie("Czy chcesz zagrac w kolko i krzyzyk w trybie graficznym? (tak/nie)");
-        XO_svg_plansza(XO);
-        if(zgodasvg)
+        XO_svg_plansza(XO, XO_graf, XO_ods);
+
+        if(XO_graf && XO_ods)
         {
+            
             string cmd = "start XO.svg";
             system(cmd.c_str());
             wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
             wys("Jesli jestes gotowy");
-        
             pauza();
             system("cls");
         }
-        else
+        else if(XO_graf && !XO_ods)
         {
-            system("cls");   
+            wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
+            wys("Jesli jestes gotowy");
+            pauza();
+            system("cls"); 
         }
+        else system("cls");
     
     
     
@@ -385,25 +518,29 @@ void gra_XO_PC()
 
     bool gracz_start;
     bool start = pytanie_tak_nie("Czy chcesz zaczynac gre jako pierwszy? (tak/nie)"); // ustalenie kto zaczyna oraz tego ktory czas bedzie wyswietlany 
+
+    if(XO_czas != 0)
+    {
     if(start)
     {
         gracz_start = true; 
-        czasO = 30;
-        czasX = 67;
+        czasO = XO_czas;
+        czasX = -1;
     }
     else 
     {
         gracz_start = false;
-        czasO = 67;
-        czasX = 30;
+        czasO = -1;
+        czasX = XO_czas;
     }
-    
+    }
+
     for(int i = 0; i < 9; i++)
 {
    int n;
     
     system("cls");
-    XO_plansza(XO, graf_plansza_XO, czasO, czasX);
+    XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
     auto lc_start = std::chrono::steady_clock::now(); // poczatek liczenia czasu
         char kznak;
         char gznak;
@@ -430,9 +567,9 @@ void gra_XO_PC()
     }
     else 
     { 
-      //ustawienie czasu komputera na 67, co powoduje ze jego czas nie bedzie wyswietlany 
-      if(kznak == 'O') czasO = 67; 
-      else if(kznak == 'X') czasX = 67; 
+      //ustawienie czasu komputera na -1, co powoduje ze jego czas nie bedzie wyswietlany 
+      if(kznak == 'O') czasO = -1; 
+      else if(kznak == 'X') czasX = -1; 
       
        if(i == 0 && gracz_start == false) // stawianie pierwszego znaku przez komputer na srodku planszy
        {
@@ -515,7 +652,7 @@ void gra_XO_PC()
             wys("$$$ GRACZ O WYGRYWA $$$");
             break;  
         }
-    XO_plansza(XO, graf_plansza_XO, czasO, czasX);
+    XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
     
     //Stawianie znaków na planszy
     if(n >= 1 && n <= 9)
@@ -539,8 +676,8 @@ void gra_XO_PC()
                 
             }
             system("cls");
-            XO_svg_plansza(XO);
-            XO_plansza(XO, graf_plansza_XO, czasO, czasX);
+            XO_svg_plansza(XO, XO_graf, XO_ods);
+            XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
             
         }
         else
@@ -597,22 +734,20 @@ void gra_XO_PC()
     }
 }
     
+    czysc();
     cout << endl << endl;
     
-
-    if(zgodasvg)
+    if(XO_graf)
     {
         wys("Przywroc okno do orginalnego rozmiaru.");
-        czysc();
         pauza();
         return;  
     }
     else
     {
-        czysc();
         pauza();
         return;
-    }
+    }  
 
 }
 

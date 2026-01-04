@@ -28,11 +28,20 @@ using namespace std;
 int main() {
     string opcje;
     srand(time(nullptr));
+
+    // Ustawienia domyslne gier
+    bool war_graf = true;
+    bool war_ods  = false;
+    bool XO_graf = true;
+    bool XO_ods  = false;
+    int XO_czas = 30;
+
      system("cls");
     // Menu glowne
         do
     {
         wys( "\\\\\\\\\\\\\\\\ MENU GLOWNE ////////"); 
+        cout << endl;
         wys("- (1) Podstawowe SVG -"); 
         wys("- (2) Zawansowane SVG -");
         wys("- (3) Gra w kolko i krzyzyk -");
@@ -47,34 +56,34 @@ int main() {
             switch (opcje[0]) 
         {
             case '1':
-                 system("cls");
+                system("cls");
                 svg_pod();
-                 system("cls");
+                system("cls");
                 break;
 
             case '2': 
-                 system("cls");
+                system("cls");
                 svg_zaw();
-                 system("cls");
+                system("cls");
                 break;
 
             case '3':
-                 system("cls");
-                menu_XO();
-                 system("cls");
+                system("cls");
+                menu_XO(XO_ods, XO_graf, XO_czas);
+                system("cls");
                 break;
 
             case '4':
-                 system("cls");
-                 warcaby();
-                 system("cls");
+                system("cls");
+                menu_warcaby(war_ods, war_graf);
+                system("cls");
                 break;
 
             case 'H':
             case 'h':
-                 system("cls");
+                system("cls");
                 pomoc_menu();
-                 system("cls");
+                system("cls");
                 break;
 
             case 'X':

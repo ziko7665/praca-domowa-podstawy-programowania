@@ -70,6 +70,147 @@ void war_plansza(char war[8][8])
 
 //=======================================================================================================================================================================
 
+void war_svg(char war[8][8], bool war_ods, bool war_graf)
+{
+    if(war_graf == true)
+    {
+
+    ofstream plik("warcaby.svg");
+    if(!plik.is_open())
+    {
+        cout << "Blad otwarcia pliku" << endl;
+        return;
+    }
+
+    plik << "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\" "
+            "preserveAspectRatio=\"xMidYMid meet\" "
+            "style=\"display:block; width:100vw; height:100vh; background:#000000; overflow:hidden;\">\n";
+
+    plik << "<rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#000000\" />\n";
+
+   
+    plik << "<rect x=\"65\" y=\"65\" width=\"870\" height=\"870\" fill=\"#ffffff\" />\n";
+    plik << "<rect x=\"67.5\" y=\"67.5\" width=\"865\" height=\"865\" fill=\"#000000\" />\n";
+    plik << "<rect x=\"117.5\" y=\"117.5\" width=\"765\" height=\"765\" fill=\"#ffffff\" />\n";
+    plik << "<rect x=\"120\" y=\"120\" width=\"760\" height=\"760\" fill=\"#000000\" />\n";
+
+    
+    int R_pola = 87;
+
+    int polaX[8] = {150, 238, 326, 414, 502, 590, 678, 766};
+    int polaY[8] = {150, 238, 326, 414, 502, 590, 678, 766};
+
+    plik << "<rect x=\"150\" y=\"150\" width=\"703\" height=\"703\" fill=\"none\" stroke=\"#ddd8d8ff\" stroke-width=\"3\" />\n";
+
+
+    for(int i = 0; i < 8; i++)
+{
+    for(int j = 0; j < 8; j++)
+    {
+        string kolor; 
+        if((i + j) % 2 == 0)
+        {
+            kolor = "#ddd8d8ff";
+        } 
+        else
+        {
+            kolor = "#181717ff";
+        } 
+        plik << "<rect x=\"" << polaX[j] << "\" y=\"" << polaY[i]
+             << "\" width=\"" << R_pola << "\" height=\"" << R_pola
+             << "\" fill=\"" << kolor << "\" />\n";
+    }
+}
+
+
+    
+    double gora = 92.5;
+    double dol = 907.5;
+    double lewo = 92.5;
+    double prawo = 907.5;
+
+    plik << "<g font-family=\"Arial\" font-size=\"30\" fill=\"#ffffff\" "
+            "text-anchor=\"middle\" dominant-baseline=\"middle\">\n";
+
+    const char litery[8] = {'a','b','c','d','e','f','g','h'};
+
+    
+    for(int j = 0; j < 8; j++)
+    {
+        int cx = polaX[j] + R_pola / 2;
+        plik << "<text x=\"" << cx << "\" y=\"" << gora << "\">" << litery[j] << "</text>\n";
+        plik << "<text x=\"" << cx << "\" y=\"" << dol << "\">" << litery[j] << "</text>\n";
+    }
+
+    
+    for(int i = 0; i < 8; i++)
+    {
+        int cy = polaX[i] + R_pola / 2;
+        plik << "<text x=\"" << lewo << "\" y=\"" << cy << "\">" << (i + 1) << "</text>\n";
+        plik << "<text x=\"" << prawo << "\" y=\"" << cy << "\">" << (i + 1) << "</text>\n";
+    }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    int r_krazka = R_pola * 0.45;
+    int r_l1_krazka = R_pola * 0.35;      
+    int r_l2_krazka = R_pola * 0.20;  
+
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            if(war[i][j] != 'O' && war[i][j] != '@') continue;
+
+            int cx = polaX[j] + R_pola/2;
+            int cy = polaY[i] + R_pola/2;
+
+            string k_pionka; 
+            string k_lini;
+
+            if(war[i][j] == 'O')
+            {
+                k_pionka = "#9e8259ff";
+                k_lini = "#806948ff";
+            }
+            else if(war[i][j] == '@')
+            {
+                k_pionka = "#3f3629ff";
+                k_lini = "#2e281eff";
+            }
+
+            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                 << "\" r=\"" << r_krazka << "\" fill=\"" << k_pionka << "\" />\n";
+
+            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                << "\" r=\"" << r_l1_krazka
+                << "\" fill=\"none\" stroke=\"" << k_lini << "\" stroke-width=\"4\" />\n";
+
+            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                << "\" r=\"" << r_l2_krazka
+                << "\" fill=\"none\" stroke=\"" << k_lini << "\" stroke-width=\"4\" />\n";
+
+        
+    }
+}
+
+
+
+
+    plik << "</g>\n";
+    plik << "</svg>\n";
+    plik.close();
+    
+    if(war_ods)
+    {
+    string cmd = "start warcaby.svg";
+    system(cmd.c_str());
+    }
+
+    }
+}
+
+//=======================================================================================================================================================================
+
 void ustaw_war_plansz_0(char war[8][8])
 {
 for(int i = 0; i < 8; i++)
@@ -120,128 +261,229 @@ bool pole_na_tab(std::string& x, int& wier, int& kol)
 
 //=======================================================================================================================================================================
 
-bool ruch_bicia(char war[8][8], char gracz, char nie_gracz, int wier_po_sr, int kol_po_sr, int zwier, int zkol, int dwier, int dkol)
+bool ruch_bicia(char war[8][8], int wier_po_sr, int kol_po_sr, int zwier, int zkol, int dwier, int dkol)
 {
-    if(gracz == 'O')
-    {
-        war[wier_po_sr][kol_po_sr] = '*';
-        war[zwier][zkol] = '*';
-        war[dwier][dkol] = gracz;
-        return true;
-    }
-    else if(gracz == '@')
-    {
-        war[wier_po_sr][kol_po_sr] = '*';
-        war[zwier][zkol] = '*';
-        war[dwier][dkol] = gracz;
-        return true;
-    }
-    return false;
+    char fig = war[zwier][zkol];
+    war[wier_po_sr][kol_po_sr] = '*';
+    war[zwier][zkol] = '*';
+    war[dwier][dkol] = fig;
+    return true;
+    
 }
 
 //=======================================================================================================================================================================
 
 bool czy_musi_bic(char war[8][8], char gracz, char nie_gracz)
 {
-    bool jest_bicie = false; 
+    
+    char nie_damka;
+    if(nie_gracz == '@') nie_damka = '&';
+    else nie_damka = '%';
 
     for(int i = 0; i < 8; i++)
     {
         for(int j = 0; j < 8; j++)
         {
-            if(war[i][j] == gracz)
+           
+            if(gracz == 'O')
             {
-                if(gracz == 'O')
+                if(war[i][j] == 'O') // bicie do gory
                 {
-                if(i - 1 >= 0 && j - 1 >= 0 && i - 2 >= 0 && j - 2 >= 0)
-                {
-                    if((war[i - 1][j -1] == nie_gracz) && (war[i - 2][j - 2] == '*'))
-                    {
-                        return true;  
-                    }
-                }
-                if((i - 1 >= 0 && j + 1 <= 7 && i - 2 >= 0 && j + 2 <= 7))
-                {
-                    if((war[i - 1][j + 1] == nie_gracz) && (war[i - 2][j + 2] == '*'))
-                    {
-                        return true;  
-                    }
-                }
-                }
+                    
+                    if(i - 2 >= 0 && j - 2 >= 0)
+                        if((war[i-1][j-1] == nie_gracz || war[i-1][j-1] == nie_damka) && war[i-2][j-2] == '*') return true;
 
-                if(gracz == '@')
+                    if(i - 2 >= 0 && j + 2 <= 7)
+                        if((war[i-1][j+1] == nie_gracz || war[i-1][j+1] == nie_damka) && war[i-2][j+2] == '*') return true;
+                }
+                else if(war[i][j] == '%') // damka bije w 4 kierunkach 
                 {
-                    if(i + 1 <= 7 && j - 1 >= 0 && i + 2 <= 7 && j - 2 >= 0)
-                    {
-                        if((war[i + 1][j - 1] == nie_gracz) && (war[i + 2][j - 2] == '*'))
-                        {
-                            return true;   
-                        }
-                    }
-                    if(i + 1 <= 7 && j + 1 <= 7 && i + 2 <= 7 && j + 2 <= 7)
-                    {
-                        if((war[i + 1][j + 1] == nie_gracz) && (war[i + 2][j + 2] == '*'))
-                        {
-                            return true;   
-                        } 
-                    }  
+                    
+                    if(i - 2 >= 0 && j - 2 >= 0)
+                        if((war[i-1][j-1] == nie_gracz || war[i-1][j-1] == nie_damka) && war[i-2][j-2] == '*') return true;
+
+                    if(i - 2 >= 0 && j + 2 <= 7)
+                        if((war[i-1][j+1] == nie_gracz || war[i-1][j+1] == nie_damka) && war[i-2][j+2] == '*') return true;
+
+                    if(i + 2 <= 7 && j - 2 >= 0)
+                        if((war[i+1][j-1] == nie_gracz || war[i+1][j-1] == nie_damka) && war[i+2][j-2] == '*') return true;
+
+                    if(i + 2 <= 7 && j + 2 <= 7)
+                        if((war[i+1][j+1] == nie_gracz || war[i+1][j+1] == nie_damka) && war[i+2][j+2] == '*') return true;
+                }
+            }
+
+           
+            if(gracz == '@')
+            {
+                if(war[i][j] == '@') // bicie w dol
+                {
+                    
+                    if(i + 2 <= 7 && j - 2 >= 0)
+                        if((war[i+1][j-1] == nie_gracz || war[i+1][j-1] == nie_damka) && war[i+2][j-2] == '*') return true;
+
+                    if(i + 2 <= 7 && j + 2 <= 7)
+                        if((war[i+1][j+1] == nie_gracz || war[i+1][j+1] == nie_damka) && war[i+2][j+2] == '*') return true;
+                }
+                else if(war[i][j] == '&') // damka bije w 4 kierunkach
+                {
+                    
+                    if(i - 2 >= 0 && j - 2 >= 0)
+                        if((war[i-1][j-1] == nie_gracz || war[i-1][j-1] == nie_damka) && war[i-2][j-2] == '*') return true;
+
+                    if(i - 2 >= 0 && j + 2 <= 7)
+                        if((war[i-1][j+1] == nie_gracz || war[i-1][j+1] == nie_damka) && war[i-2][j+2] == '*') return true;
+
+                    if(i + 2 <= 7 && j - 2 >= 0)
+                        if((war[i+1][j-1] == nie_gracz || war[i+1][j-1] == nie_damka) && war[i+2][j-2] == '*') return true;
+
+                    if(i + 2 <= 7 && j + 2 <= 7)
+                        if((war[i+1][j+1] == nie_gracz || war[i+1][j+1] == nie_damka) && war[i+2][j+2] == '*') return true;
                 }
             }
         }
     }
-    return false; 
+    return false;
 }
+
 
 //=======================================================================================================================================================================
 
-bool pion_ma_bicie(char war[8][8], char gracz, char nie_gracz, int dwier, int dkol)
+bool pion_ma_bicie(char war[8][8], int dwier, int dkol)
 {
+    
+    char fig = war[dwier][dkol];
 
-    if(war[dwier][dkol] == 'O')
+    if(fig == 'O') 
     {
-        if(dwier - 1 >= 0 && dkol - 1 >= 0 && dwier - 2 >= 0 && dkol - 2 >= 0)
+        if(dwier - 2 >= 0 && dkol - 2 >= 0)
         {
-            if((war[dwier - 1][dkol -1] == nie_gracz) && (war[dwier - 2][dkol - 2] == '*'))
+            if( (war[dwier - 1][dkol - 1] == '@' || war[dwier - 1][dkol - 1] == '&') &&
+                (war[dwier - 2][dkol - 2] == '*') )
             {
-                return true;  
+                return true;
             }
         }
-        if((dwier - 1 >= 0 && dkol + 1 <= 7 && dwier - 2 >= 0 && dkol + 2 <= 7))
+        if(dwier - 2 >= 0 && dkol + 2 <= 7)
         {
-            if((war[dwier - 1][dkol + 1] == nie_gracz) && (war[dwier - 2][dkol + 2] == '*'))
+            if( (war[dwier - 1][dkol + 1] == '@' || war[dwier - 1][dkol + 1] == '&') &&
+                (war[dwier - 2][dkol + 2] == '*') )
             {
-                return true;  
+                return true;
             }
         }
+        return false;
     }
 
-
-       else if(war[dwier][dkol] == '@')
+    
+    if(fig == '@')
     {
-        if(dwier + 1 <= 7 && dkol - 1 >= 0 && dwier + 2 <= 7 && dkol - 2 >= 0)
+        if(dwier + 2 <= 7 && dkol - 2 >= 0)
         {
-            if((war[dwier + 1][dkol - 1] == nie_gracz) && (war[dwier + 2][dkol - 2] == '*'))
+            if( (war[dwier + 1][dkol - 1] == 'O' || war[dwier + 1][dkol - 1] == '%') &&
+                (war[dwier + 2][dkol - 2] == '*') )
             {
-                return true;   
+                return true;
             }
-           
         }
-        if(dwier + 1 <= 7 && dkol + 1 <= 7 && dwier + 2 <= 7 && dkol + 2 <= 7)
+        if(dwier + 2 <= 7 && dkol + 2 <= 7)
         {
-            if((war[dwier + 1][dkol + 1] == nie_gracz) && (war[dwier + 2][dkol + 2] == '*'))
+            if( (war[dwier + 1][dkol + 1] == 'O' || war[dwier + 1][dkol + 1] == '%') &&
+                (war[dwier + 2][dkol + 2] == '*') )
             {
-                return true;   
-            } 
+                return true;
+            }
         }
-
+        return false;
     }
-    else
-    { 
+
+    
+    if(fig == '%')
+    {
+        // gora lewo
+        if(dwier - 2 >= 0 && dkol - 2 >= 0)
+        {
+            if( (war[dwier - 1][dkol - 1] == '@' || war[dwier - 1][dkol - 1] == '&') &&
+                (war[dwier - 2][dkol - 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // gora prawo
+        if(dwier - 2 >= 0 && dkol + 2 <= 7)
+        {
+            if( (war[dwier - 1][dkol + 1] == '@' || war[dwier - 1][dkol + 1] == '&') &&
+                (war[dwier - 2][dkol + 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // dol lewo
+        if(dwier + 2 <= 7 && dkol - 2 >= 0)
+        {
+            if( (war[dwier + 1][dkol - 1] == '@' || war[dwier + 1][dkol - 1] == '&') &&
+                (war[dwier + 2][dkol - 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // dol prawo
+        if(dwier + 2 <= 7 && dkol + 2 <= 7)
+        {
+            if( (war[dwier + 1][dkol + 1] == '@' || war[dwier + 1][dkol + 1] == '&') &&
+                (war[dwier + 2][dkol + 2] == '*') )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+    if(fig == '&')
+    {
+        // gora lewo
+        if(dwier - 2 >= 0 && dkol - 2 >= 0)
+        {
+            if( (war[dwier - 1][dkol - 1] == 'O' || war[dwier - 1][dkol - 1] == '%') &&
+                (war[dwier - 2][dkol - 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // gora prawo
+        if(dwier - 2 >= 0 && dkol + 2 <= 7)
+        {
+            if( (war[dwier - 1][dkol + 1] == 'O' || war[dwier - 1][dkol + 1] == '%') &&
+                (war[dwier - 2][dkol + 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // dol lewo
+        if(dwier + 2 <= 7 && dkol - 2 >= 0)
+        {
+            if( (war[dwier + 1][dkol - 1] == 'O' || war[dwier + 1][dkol - 1] == '%') &&
+                (war[dwier + 2][dkol - 2] == '*') )
+            {
+                return true;
+            }
+        }
+        // dol prawo
+        if(dwier + 2 <= 7 && dkol + 2 <= 7)
+        {
+            if( (war[dwier + 1][dkol + 1] == 'O' || war[dwier + 1][dkol + 1] == '%') &&
+                (war[dwier + 2][dkol + 2] == '*') )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     return false;
-    }
-
-return false;
 }
+
 
 //=======================================================================================================================================================================
 
@@ -254,17 +496,17 @@ bool bez_piona(char war[8][8])
     {
         for(int j = 0; j < 8; j++)
         {
-            if(war[i][j] == 'O')
+            if(war[i][j] == 'O' || war[i][j] == '%' )
             {
                 biale++;
             }
-            else if(war[i][j] == '@')
+            else if(war[i][j] == '@' || war[i][j] == '&' )
             {
                 czarne++;
             }
         }
     }
-    if(biale == 0)
+    if(biale == 0) // warunek wygranej
     {
         system("cls");
         war_plansza(war);
@@ -295,106 +537,260 @@ bool bez_piona(char war[8][8])
 
 bool czy_jest_ruch(char war[8][8], char gracz, char nie_gracz)
 {
-    if(czy_musi_bic(war, gracz, nie_gracz)) 
+    if(czy_musi_bic(war, gracz, nie_gracz))
     {
         return true;
     }
-    else
-    {
+
+    char damka_gracza;
+    if(gracz == 'O') damka_gracza = '%';
+    else damka_gracza = '&';
 
     int l_ruch = 0;
 
-        for(int i = 0; i < 8; i++)
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
         {
-            for(int j = 0; j < 8; j++)
-            {
-                if(war[i][j] == gracz)
-                {
-                    if(gracz == 'O')
-                    {
-                        if(i - 1 >= 0 && j - 1 >= 0)
-                        {
-                            if(war[i - 1][j - 1] == '*')
-                            {
-                                l_ruch++;
-                            }
-                        }
-                        if(i - 1 >= 0 && j + 1 <= 7)
-                        {
-                            if((war[i - 1][j + 1] == '*'))
-                            {
-                                l_ruch++;
-                            }
-     
-                        }
-                    }
-                    else
-                    {
-                        if(i + 1 <= 7 && j - 1 >= 0)
-                        {
-                           if(war[i + 1][j - 1] == '*')
-                           {
-                                l_ruch++;
-                           } 
-                        }
-                        if(i + 1 <= 7 && j + 1 <= 7)
-                        {
-                            if(war[i + 1][j + 1] == '*')
-                            {
-                                l_ruch++;
-                            }
-                        }
-                    }
-                }
-                
-            }
-        }
-
-        if(l_ruch != 0)
-        {
-            return true;
-        }
-        else
-        {
-            if(gracz == 'O')
-            {
-            system("cls");
-            war_plansza(war);
-            cout << endl << endl;
-            wys("$$$ GRACZ @ WYGRYWA $$$");
-            cout << endl;
-            wys("Gracz O nie moze wykonac ruchu"); 
-            cout << endl;
-            cout << endl;
             
-            return false;
-            }
-            else
+            if(war[i][j] != gracz && war[i][j] != damka_gracza) continue;
+
+            
+            if(war[i][j] == gracz) // zwykly pionek
             {
-            system("cls");
-            war_plansza(war);
-            cout << endl << endl;
-            wys("$$$ GRACZ O WYGRYWA $$$");
-            cout << endl;
-            wys("Gracz @ nie moze wykonac ruchu"); 
-            cout << endl;
-           
-            return false;   
+                if(gracz == 'O')
+                {
+                    if(i - 1 >= 0 && j - 1 >= 0 && war[i - 1][j - 1] == '*') l_ruch++;
+                    if(i - 1 >= 0 && j + 1 <= 7 && war[i - 1][j + 1] == '*') l_ruch++;
+                }
+                else // '@'
+                {
+                    if(i + 1 <= 7 && j - 1 >= 0 && war[i + 1][j - 1] == '*') l_ruch++;
+                    if(i + 1 <= 7 && j + 1 <= 7 && war[i + 1][j + 1] == '*') l_ruch++;
+                }
+            }
+            else // damka 
+            {
+                if(i - 1 >= 0 && j - 1 >= 0 && war[i - 1][j - 1] == '*') l_ruch++;
+                if(i - 1 >= 0 && j + 1 <= 7 && war[i - 1][j + 1] == '*') l_ruch++;
+                if(i + 1 <= 7 && j - 1 >= 0 && war[i + 1][j - 1] == '*') l_ruch++;
+                if(i + 1 <= 7 && j + 1 <= 7 && war[i + 1][j + 1] == '*') l_ruch++;
             }
         }
     }
-    return false;
+
+    if(l_ruch != 0) return true;
+
+    
+    if(gracz == 'O') // warunek wygranej
+    {
+        system("cls");
+        war_plansza(war);
+        cout << endl << endl;
+        wys("$$$ GRACZ @ WYGRYWA $$$");
+        cout << endl;
+        wys("Gracz O nie moze wykonac ruchu");
+        cout << endl << endl;
+        return false;
+    }
+    else
+    {
+        system("cls");
+        war_plansza(war);
+        cout << endl << endl;
+        wys("$$$ GRACZ O WYGRYWA $$$");
+        cout << endl;
+        wys("Gracz @ nie moze wykonac ruchu");
+        cout << endl;
+        return false;
+    }
+}
+
+
+//=======================================================================================================================================================================
+
+void menu_warcaby(bool& war_ods, bool& war_graf)
+{
+    
+
+   while(true)
+    {
+    string tryb;
+    wys("\\\\\\\\\\\\\\\\ WARCABY ////////");
+    cout << endl;   
+    wys("- (1) Nowa Gra -");
+    wys("- (2) Wczytaj Zapis -");
+    wys("- (3) Ustawienia -");
+    wys("- (H) Instrukcja do gry -");
+    wys("- (X) Powrot do MENU -");
+    cout << "Wybierz opcje: "; 
+    getline(cin >> ws, tryb);
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == 'H' || tryb[0] == 'h' || tryb[0] == 'X' || tryb[0] == 'x'))
+{
+
+    switch (tryb[0])
+    {
+        case '1':
+            system("cls");
+            warcaby(war_ods, war_graf);
+            system("cls");
+            break;;
+
+        case '2':
+            system("cls");
+            zapis();
+            system("cls");
+            break;
+
+        case '3':
+            system("cls");
+            ustawienia(war_ods, war_graf);
+            system("cls");
+            break;
+
+        case 'H':
+        case 'h':
+            system("cls");    
+            pomoc_menu();
+            system("cls");
+            break;
+
+        case 'X':
+        case 'x':
+            return;
+
+    default:
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        break;
+    }
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+} 
 }
 
 //=======================================================================================================================================================================
 
-void warcaby()
+void ustawienia(bool& war_ods, bool& war_graf)
 {
+
+    
+    while(true)
+    {
+    string tryb;
+    wys("\\\\\\\\\\\\\\\\ WARCABY USTAWIENIA ////////");
+    cout << endl;
+    wys("- (1) Tryb Graficzny -");
+    wys("- (2) Odswierzanie -");
+    wys("- (X) Powrot do MENU -");
+
+
+    
+    cout << "- Tryb Graficzny: "; 
+        if(war_graf == true) cout << "ON" << endl;
+        else cout << "OFF" << endl;
+    cout << "- Odswierzanie: ";     
+        if(war_ods == true) cout << "ON" << endl;
+        else cout << "OFF" << endl;
+
+
+    cout << endl;
+    cout << "Wybierz opcje: "; 
+    getline(cin >> ws, tryb);
+    
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == 'X' || tryb[0] == 'x'))
+{
+
+    switch (tryb[0])
+    {
+        case '1':
+        {
+            system("cls");
+            cout << endl << endl;
+            war_graf = pytanie_tak_nie("Czy chcesz grac z reprezentacja graficzna w SVG? (tak/nie)");
+            
+            system("cls");
+            break;;
+        }
+
+        case '2':
+            system("cls");
+            cout << endl << endl;
+            war_ods = pytanie_tak_nie("Czy wlaczyc odswierzanie automatyczne? (tak/nie)");
+            system("cls");
+            break;
+
+
+        case 'X':
+        case 'x':
+            return;
+
+    default:
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        break;
+    }
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+} 
+    
+    
+}
+
+//=======================================================================================================================================================================
+
+void damkowanie(char war[8][8], int wier, int kol)
+{
+    if(war[wier][kol] == 'O' && wier == 0) war[wier][kol] = '%';
+    if(war[wier][kol] == '@' && wier == 7) war[wier][kol] = '&';
+}
+
+//=======================================================================================================================================================================
+
+void zapis()
+{
+    cout << "zapis" << endl;
+    pauza();
+}
+
+//=======================================================================================================================================================================
+
+void warcaby(bool war_ods, bool war_graf)
+{
+    
     char war[8][8];
     ustaw_war_plansz_0(war);
-    war_plansza(war);
+    
     bool koniec = false;
     char gracz = 'O';
+    war_svg(war, war_ods, war_graf);
+
+    if(war_ods == false && war_graf == true)
+    {
+        string cmd = "start warcaby.svg";
+        system(cmd.c_str());
+        wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
+        wys("Jesli jestes gotowy");
+        pauza();
+        system("cls");
+    }
+    else if(war_ods == true && war_graf == true)
+    {
+        wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
+        wys("Jesli jestes gotowy");
+        pauza();
+        system("cls");
+    }
+
+    war_plansza(war);
 
     while(!koniec) 
     {   
@@ -420,7 +816,7 @@ void warcaby()
         cout << "Ruch gracza: " << gracz << endl;
         
         bool dobry_ruch = false;
-        while(!dobry_ruch) //Walidacja ruchu 
+        while(!dobry_ruch) // walidacja ruchu 
         {
             cout << "Podaj pole startowe: ";
             cin >> z; czysc();
@@ -438,11 +834,25 @@ void warcaby()
                 continue;
             }
 
-            if(war[zwier][zkol] != gracz)
+            char S_fig = war[zwier][zkol];
+
+            if(gracz == 'O') // biale
             {
-                cout << "Pole startowe jest niepoprawne, sprobuj ponownie." << endl << endl;
-                continue;
+                if(S_fig != 'O' && S_fig != '%')
+                {
+                    cout << "Pole startowe jest niepoprawne, sprobuj ponownie." << endl << endl;
+                    continue;
+                }
             }
+            else // czarne
+            {
+                if(S_fig != '@' && S_fig != '&')
+                {
+                    cout << "Pole startowe jest niepoprawne, sprobuj ponownie." << endl << endl;
+                    continue;
+                }
+            }
+
             if(war[dwier][dkol] != '*')
             {
                 cout << "Pole docelowe jest niepoprawne, sprobuj ponownie." << endl << endl;
@@ -452,121 +862,199 @@ void warcaby()
             int kier_weir = dwier - zwier;
             int kier_kol = dkol - zkol;
             int kier;
-
-            if (gracz == 'O')
-            {
-                kier = -1;   // biały idzie do góry (wiersz maleje)
-            }
-                else if (gracz == '@')
-            {
-                kier = 1;    // czarny idzie w dół (wiersz rośnie)
-            }
-            else
-            {
-                cout << "Blad: nieznany gracz" << endl;
-                continue;
-            }
-
-            
             int wier_po_sr;
             int kol_po_sr;
-            
 
-            if(kier_weir == kier && (kier_kol == 1 || kier_kol == -1)) // Zwykly ruch, o 1 po skosie i w dobrym kierunku
+            bool damka = (war[zwier][zkol] == '%' || war[zwier][zkol] == '&');
+
+            if(!damka)
+            {
+                if(gracz == 'O') kier = -1;
+                else kier = 1;
+            }
+
+            bool zwykly_ruch = false;
+
+            
+            if(!damka)
+            {
+                if(kier_weir == kier && (kier_kol == 1 || kier_kol == -1))
+                {
+                zwykly_ruch = true;
+                }
+            }
+            else // damka moze gora dol
+            {
+                if((kier_weir == 1 || kier_weir == -1) && (kier_kol == 1 || kier_kol == -1))
+                {
+                    zwykly_ruch = true;
+                }
+            }
+
+            if(zwykly_ruch)
             {
                 if(musi_bic == false)
                 {
-                war[zwier][zkol] = '*';
-                war[dwier][dkol] = gracz;
-                dobry_ruch = true;
+                    char fig = war[zwier][zkol];
+                    war[zwier][zkol] = '*';
+                    war[dwier][dkol] = fig;
+                    damkowanie(war, dwier, dkol); 
+                    dobry_ruch = true;
                 }
-                else 
+                else
                 {
                     cout << "Masz bicie, musisz je wykonac" << endl << endl;
                     continue;
                 }
             }
-            
-            
-            else if(kier_weir == 2 * kier && (kier_kol == 2 || kier_kol == -2))  // Bicie, o 2 po skosie, w dobrym kierunku, a posrodku musi stac przeciwnik
+
+            else if((!damka && (kier_weir == 2 * kier) && (kier_kol == 2 || kier_kol == -2)) ||
+                    (damka && ((kier_weir == 2 || kier_weir == -2) && (kier_kol == 2 || kier_kol == -2))))
             {
+                bool warunek_bicia = true;
+            
                 wier_po_sr = (zwier + dwier) / 2;
-                kol_po_sr = (zkol + dkol) / 2;
-
-
-                if(war[wier_po_sr][kol_po_sr] == nie_gracz)
+                kol_po_sr  = (zkol + dkol) / 2;
+            
+                
+                char srodek = war[wier_po_sr][kol_po_sr];
+                bool jest_przeciwnik = false;
+            
+                if(gracz == 'O')
                 {
-                   
-                    ruch_bicia(war, gracz, nie_gracz, wier_po_sr, kol_po_sr, zwier, zkol, dwier, dkol);
-                    system("cls");
-                    war_plansza(war);
-                    while(pion_ma_bicie(war, gracz, nie_gracz, dwier, dkol)) // Petla ponownego bicia
-                    {
-                        zwier = dwier;
-                        zkol = dkol;
-
-                        cout << "Podaj pole docelowe: ";
-                        cin >> d; czysc();
-                        bool OKd = pole_na_tab(d, dwier, dkol);
-                        kier_weir = dwier - zwier;
-                        kier_kol = dkol - zkol;
-                        wier_po_sr = (zwier + dwier) / 2;
-                        kol_po_sr = (zkol + dkol) / 2;
-
-                        if(!OKd)
-                        {
-                        cout << "Niepoprawny foramt ruchu, sprobuj ponownie." << endl << endl;
-                        continue;
-                        }
-                        if(war[dwier][dkol] != '*')
-                        {
-                            cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
-                            continue;
-                        }
-                        if(kier_weir == 2 * kier && (kier_kol == 2 || kier_kol == -2))
-                        {
-                            if(war[wier_po_sr][kol_po_sr] == nie_gracz)
-                            {
-                            ruch_bicia(war, gracz, nie_gracz, wier_po_sr, kol_po_sr, zwier, zkol, dwier, dkol);
-                            system("cls");
-                            war_plansza(war);
-                            }
-                            else
-                            {
-                                cout << "Nie ma tam przeciwnika do zbicia." << endl << endl;
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
-                            continue;
-                        }
-                      
-                        
-                    }
-                    dobry_ruch = true;
+                    if(srodek == '@' || srodek == '&') jest_przeciwnik = true;
                 }
                 else
+                {
+                    if(srodek == 'O' || srodek == '%') jest_przeciwnik = true;
+                }
+            
+                if(!jest_przeciwnik)
                 {
                     cout << "Nie ma tam przeciwnika do zbicia." << endl << endl;
                     continue;
                 }
-            }
-                else
+            
+                ruch_bicia(war, wier_po_sr, kol_po_sr, zwier, zkol, dwier, dkol);
+                system("cls");
+                war_plansza(war);
+                war_svg(war, war_ods, war_graf);
+            
+                bool koniec_bicia = false;
+                if(!damka)
                 {
-                    cout << "Niepoprawny ruch po skosie." << endl << endl;
-                    continue;
+                    if(gracz == 'O' && dwier == 0) koniec_bicia = true;
+                    if(gracz == '@' && dwier == 7) koniec_bicia = true;
                 }
+            
+                while(!koniec_bicia && pion_ma_bicie(war, dwier, dkol))
+                {
+                    zwier = dwier;
+                    zkol  = dkol;
+                
+                    cout << "Podaj pole docelowe: ";
+                    cin >> d; 
+                    czysc();
+                
+                    bool OKd = pole_na_tab(d, dwier, dkol);
+                    if(!OKd)
+                    {
+                        cout << "Niepoprawny format ruchu, sprobuj ponownie." << endl << endl;
+                        continue;
+                    }
+                
+                    if(war[dwier][dkol] != '*')
+                    {
+                        cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
+                        continue;
+                    }
+                
+                    kier_weir = dwier - zwier;
+                    kier_kol  = dkol - zkol;
+                
+                    warunek_bicia = false;
+                    if(damka)
+                    {
+                        if( (kier_weir == 2 || kier_weir == -2) && (kier_kol == 2 || kier_kol == -2) )
+                            warunek_bicia = true;
+                    }
+                    else
+                    {
+                        if( (kier_weir == 2 * kier) && (kier_kol == 2 || kier_kol == -2) )
+                            warunek_bicia = true;
+                    }
+                
+                    if(!warunek_bicia)
+                    {
+                        cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
+                        continue;
+                    }
+                
+                    wier_po_sr = (zwier + dwier) / 2;
+                    kol_po_sr  = (zkol + dkol) / 2;
+                
+                    srodek = war[wier_po_sr][kol_po_sr];
+                    jest_przeciwnik = false;
+                
+                    if(gracz == 'O')
+                    {
+                        if(srodek == '@' || srodek == '&') jest_przeciwnik = true;
+                    }
+                    else
+                    {
+                        if(srodek == 'O' || srodek == '%') jest_przeciwnik = true;
+                    }
+                
+                    if(!jest_przeciwnik)
+                    {
+                        cout << "Nie ma tam przeciwnika do zbicia." << endl << endl;
+                        continue;
+                    }
+                
+                    ruch_bicia(war, wier_po_sr, kol_po_sr, zwier, zkol, dwier, dkol);
+                    system("cls");
+                    war_plansza(war);
+                    war_svg(war, war_ods, war_graf);
+                
+                    if(!damka)
+                    {
+                        if(gracz == 'O' && dwier == 0) koniec_bicia = true;
+                        if(gracz == '@' && dwier == 7) koniec_bicia = true;
+                    }
+                }
+            
+                damkowanie(war, dwier, dkol);
+                dobry_ruch = true;
+            }
+            else
+            {
+                cout << "Nie ma tam przeciwnika do zbicia." << endl << endl;
+                continue;
+            }
+                 
             
         }
         if(gracz == 'O') gracz = '@';
         else gracz = 'O';
         system("cls");
         war_plansza(war);
+        war_svg(war, war_ods, war_graf);
+
     }
     czysc();
-    pauza();
+    cout << endl << endl;
+    
+    if(war_graf)
+    {
+        wys("Przywroc okno do orginalnego rozmiaru.");
+        pauza();
+        return;  
+    }
+    else
+    {
+        pauza();
+        return;
+    }  
 }
 
 
