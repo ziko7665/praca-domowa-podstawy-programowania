@@ -159,7 +159,8 @@ void war_svg(char war[8][8], bool war_ods, bool war_graf)
     {
         for(int j = 0; j < 8; j++)
         {
-            if(war[i][j] != 'O' && war[i][j] != '@') continue;
+            if(war[i][j] != 'O' && war[i][j] != '@' && war[i][j] != '%' && war[i][j] != '&') continue;
+
 
             int cx = polaX[j] + R_pola/2;
             int cy = polaY[i] + R_pola/2;
@@ -167,28 +168,69 @@ void war_svg(char war[8][8], bool war_ods, bool war_graf)
             string k_pionka; 
             string k_lini;
 
-            if(war[i][j] == 'O')
+            if(war[i][j] == 'O' || war[i][j] == '%')
             {
                 k_pionka = "#9e8259ff";
                 k_lini = "#806948ff";
             }
-            else if(war[i][j] == '@')
+            else if(war[i][j] == '@' || war[i][j] == '&')
             {
                 k_pionka = "#3f3629ff";
                 k_lini = "#2e281eff";
             }
+           
+            
+            if(war[i][j] == 'O' || war[i][j] == '@')
+            {
+                plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                << "\" r=\"" << r_krazka << "\" fill=\"" << k_pionka << "\" />\n";
 
-            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
-                 << "\" r=\"" << r_krazka << "\" fill=\"" << k_pionka << "\" />\n";
-
-            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
                 << "\" r=\"" << r_l1_krazka
                 << "\" fill=\"none\" stroke=\"" << k_lini << "\" stroke-width=\"4\" />\n";
 
-            plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
                 << "\" r=\"" << r_l2_krazka
                 << "\" fill=\"none\" stroke=\"" << k_lini << "\" stroke-width=\"4\" />\n";
+            }
 
+            else if(war[i][j] == '%' || war[i][j] == '&')
+            {
+                plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                << "\" r=\"" << r_krazka << "\" fill=\"" << k_pionka << "\" />\n";  
+
+                plik << "<circle cx=\"" << cx << "\" cy=\"" << cy
+                << "\" r=\"" << r_l1_krazka
+                << "\" fill=\"none\" stroke=\"" << k_lini << "\" stroke-width=\"4\" />\n";
+
+                // korona
+                double kor_x = cx - (r_krazka * 0.95) / 2.0;
+                double kor_y = cy - (r_krazka * 0.5) / 4.0;
+
+                // podstawa
+                plik << "<rect x=\"" << kor_x << "\" y=\"" << kor_y + 12
+                     << "\" width=\"" << (r_krazka * 0.95) << "\" height=\"" << (r_krazka * 0.5) - 12
+                     << "\" fill=\"" << k_lini << "\" />\n";
+
+                // W
+                plik << "<text x=\"" << cx << "\" y=\"" << (kor_y + (r_krazka * 0.5) / 2.0)
+                     << "\" font-family=\"Arial\" font-size=\"" << (r_krazka)
+                     << "\" font-weight=\"700\" fill=\"" << k_lini
+                     << "\" text-anchor=\"middle\" dominant-baseline=\"middle\">W</text>\n";
+
+                // boki
+                plik << "<line x1=\"" << kor_x - 1 << "\" y1=\"" << kor_y - 9
+                     << "\" x2=\"" << kor_x << "\" y2=\"" << (kor_y + (r_krazka * 0.5))
+                     << "\" stroke=\"" << k_lini << "\" stroke-width=\"5\" />\n";
+
+                plik << "<line x1=\"" << (kor_x + (r_krazka * 0.95) + 1) << "\" y1=\"" << kor_y - 9
+                     << "\" x2=\"" << (kor_x + (r_krazka * 0.95)) << "\" y2=\"" << (kor_y + (r_krazka * 0.5))
+                     << "\" stroke=\"" << k_lini << "\" stroke-width=\"5\" />\n";
+
+
+
+                
+            }
         
     }
 }
@@ -605,7 +647,6 @@ bool czy_jest_ruch(char war[8][8], char gracz, char nie_gracz)
         return false;
     }
 }
-
 
 //=======================================================================================================================================================================
 
