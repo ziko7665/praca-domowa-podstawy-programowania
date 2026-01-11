@@ -19,6 +19,7 @@ using namespace std;
 
 
 
+/*
 void war_plansza(char war[8][8])
 {
    int pw = ((szer_cmd() - 30) / 2)-2; 
@@ -67,8 +68,61 @@ void war_plansza(char war[8][8])
 
     cout << setw(kw+32) << "+---+---+---+---+---+---+---+---+" << endl;
 }
+*/
 
-//=======================================================================================================================================================================
+void war_plansza(char war[8][8])
+{
+    int pw = ((szer_cmd() - 30) / 2) - 2;
+    int kw = ((szer_cmd() - 30) / 2) - 1;
+
+    cout << endl << endl;   
+    cout << setw(kw + 30) << "a   b   c   d   e   f   g   h" << endl;
+    cout << setw(kw + 32) << "+---+---+---+---+---+---+---+---+" << endl;
+
+    cout << setw(pw) << "1 " << "|" << " " << war[0][0] << " | " << war[0][1] << " | " << war[0][2] << " | " << war[0][3]
+         << " | " << war[0][4] << " | " << war[0][5] << " | " << war[0][6] << " | " << war[0][7] << " " << "|" << " 1" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "2 " << "|" << " " << war[1][0] << " | " << war[1][1] << " | " << war[1][2] << " | " << war[1][3]
+         << " | " << war[1][4] << " | " << war[1][5] << " | " << war[1][6] << " | " << war[1][7] << " " << "|" << " 2" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "3 " << "|" << " " << war[2][0] << " | " << war[2][1] << " | " << war[2][2] << " | " << war[2][3]
+         << " | " << war[2][4] << " | " << war[2][5] << " | " << war[2][6] << " | " << war[2][7] << " " << "|" << " 3" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "4 " << "|" << " " << war[3][0] << " | " << war[3][1] << " | " << war[3][2] << " | " << war[3][3]
+         << " | " << war[3][4] << " | " << war[3][5] << " | " << war[3][6] << " | " << war[3][7] << " " << "|" << " 4" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "5 " << "|" << " " << war[4][0] << " | " << war[4][1] << " | " << war[4][2] << " | " << war[4][3]
+         << " | " << war[4][4] << " | " << war[4][5] << " | " << war[4][6] << " | " << war[4][7] << " " << "|" << " 5" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "6 " << "|" << " " << war[5][0] << " | " << war[5][1] << " | " << war[5][2] << " | " << war[5][3]
+         << " | " << war[5][4] << " | " << war[5][5] << " | " << war[5][6] << " | " << war[5][7] << " " << "|" << " 6" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "7 " << "|" << " " << war[6][0] << " | " << war[6][1] << " | " << war[6][2] << " | " << war[6][3]
+         << " | " << war[6][4] << " | " << war[6][5] << " | " << war[6][6] << " | " << war[6][7] << " " << "|" << " 7" << endl;
+
+    cout << setw(kw) << "|" << "---+---+---+---+---+---+---+---" << "|" << endl;
+
+    cout << setw(pw) << "8 " << "|" << " " << war[7][0] << " | " << war[7][1] << " | " << war[7][2] << " | " << war[7][3]
+         << " | " << war[7][4] << " | " << war[7][5] << " | " << war[7][6] << " | " << war[7][7] << " " << "|" << " 8" << endl;
+
+    cout << setw(kw + 32) << "+---+---+---+---+---+---+---+---+" << endl;
+    cout << setw(kw + 30) << "a   b   c   d   e   f   g   h" << endl;
+}
+
+
+//===================================================================================================================================================================
 
 void war_svg(char war[8][8], bool war_ods, bool war_graf)
 {
@@ -145,11 +199,11 @@ void war_svg(char war[8][8], bool war_ods, bool war_graf)
     
     for(int i = 0; i < 8; i++)
     {
-        int cy = polaX[i] + R_pola / 2;
+        int cy = polaY[i] + R_pola / 2;
         plik << "<text x=\"" << lewo << "\" y=\"" << cy << "\">" << (i + 1) << "</text>\n";
         plik << "<text x=\"" << prawo << "\" y=\"" << cy << "\">" << (i + 1) << "</text>\n";
     }
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     int r_krazka = R_pola * 0.45;
     int r_l1_krazka = R_pola * 0.35;      
@@ -236,8 +290,6 @@ void war_svg(char war[8][8], bool war_ods, bool war_graf)
 }
 
 
-
-
     plik << "</g>\n";
     plik << "</svg>\n";
     plik.close();
@@ -251,7 +303,7 @@ void war_svg(char war[8][8], bool war_ods, bool war_graf)
     }
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 void ustaw_war_plansz_0(char war[8][8])
 {
@@ -286,7 +338,7 @@ for(int i = 0; i < 8; i++)
     }    
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool pole_na_tab(std::string& x, int& wier, int& kol)
 {
@@ -301,7 +353,7 @@ bool pole_na_tab(std::string& x, int& wier, int& kol)
     return true;
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool ruch_bicia(char war[8][8], int wier_po_sr, int kol_po_sr, int zwier, int zkol, int dwier, int dkol)
 {
@@ -313,7 +365,7 @@ bool ruch_bicia(char war[8][8], int wier_po_sr, int kol_po_sr, int zwier, int zk
     
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool czy_musi_bic(char war[8][8], char gracz, char nie_gracz)
 {
@@ -388,8 +440,7 @@ bool czy_musi_bic(char war[8][8], char gracz, char nie_gracz)
     return false;
 }
 
-
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool pion_ma_bicie(char war[8][8], int dwier, int dkol)
 {
@@ -526,8 +577,7 @@ bool pion_ma_bicie(char war[8][8], int dwier, int dkol)
     return false;
 }
 
-
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool bez_piona(char war[8][8])
 {
@@ -575,7 +625,7 @@ bool bez_piona(char war[8][8])
     return false; 
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool czy_jest_ruch(char war[8][8], char gracz, char nie_gracz)
 {
@@ -648,12 +698,10 @@ bool czy_jest_ruch(char war[8][8], char gracz, char nie_gracz)
     }
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 void menu_warcaby(bool& war_ods, bool& war_graf)
 {
-    
-
    while(true)
     {
     string tryb;
@@ -679,7 +727,7 @@ void menu_warcaby(bool& war_ods, bool& war_graf)
 
         case '2':
             system("cls");
-            zapis();
+            menu_wczyt(war_ods, war_graf);
             system("cls");
             break;
 
@@ -714,7 +762,7 @@ void menu_warcaby(bool& war_ods, bool& war_graf)
 } 
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 void ustawienia(bool& war_ods, bool& war_graf)
 {
@@ -786,7 +834,7 @@ void ustawienia(bool& war_ods, bool& war_graf)
     
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
 void damkowanie(char war[8][8], int wier, int kol)
 {
@@ -794,24 +842,531 @@ void damkowanie(char war[8][8], int wier, int kol)
     if(war[wier][kol] == '@' && wier == 7) war[wier][kol] = '&';
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
-void zapis()
+void menu_wczyt(bool& war_ods, bool& war_graf)
 {
-    cout << "zapis" << endl;
-    pauza();
+    while(true)
+    {
+    string tryb;
+    wys("\\\\\\\\\\\\\\\\ WCZYTAJ GRE ////////");
+    cout << endl;   
+
+
+    bool s1 = slot_zajety(plik_war_slot(1));
+    bool s2 = slot_zajety(plik_war_slot(2));
+    bool s3 = slot_zajety(plik_war_slot(3));
+    bool s4 = slot_zajety(plik_war_slot(4));
+
+
+    string stan1, stan2, stan3, stan4;
+
+    if(s1) stan1 = "zajety"; else stan1 = "pusty";
+    if(s2) stan2 = "zajety"; else stan2 = "pusty";
+    if(s3) stan3 = "zajety"; else stan3 = "pusty";
+    if(s4) stan4 = "zajety"; else stan4 = "pusty";
+
+    wys("- (1) SLOT 1 [" + stan1 + "] -");
+    wys("- (2) SLOT 2 [" + stan2 + "] -");
+    wys("- (3) SLOT 3 [" + stan3 + "] -");
+    wys("- (4) SLOT 4 [" + stan4 + "] -");
+
+
+     
+    wys("- (X) Powrot do MENU -");
+    cout << "Wybierz opcje: "; 
+    getline(cin >> ws, tryb);
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == '4' || tryb[0] == 'X' || tryb[0] == 'x'))
+{
+
+    switch (tryb[0])
+    {
+        case '1':
+            {
+                system("cls");
+            
+                char war[8][8];
+                char gracz = 'O';
+            
+                bool ods_z_p = war_ods;
+                bool graf_z_p = war_graf;
+            
+                bool ok = wczyt_gry(plik_war_slot(1), war, gracz, ods_z_p, graf_z_p);
+                if(!ok)
+                {
+                    cout << "Slot 1 jest pusty albo zapis jest uszkodzony.\n";
+                    pauza();
+                    system("cls");
+                    break;
+                }
+            
+                war_ods = ods_z_p;
+                war_graf = graf_z_p;
+            
+                warcaby_wczytane(war, gracz, war_ods, war_graf);
+                system("cls");
+                break;
+            }
+
+
+        case '2':
+            {
+                system("cls");
+            
+                char war[8][8];
+                char gracz = 'O';
+            
+                bool ods_z_p = war_ods;
+                bool graf_z_p = war_graf;
+            
+                bool ok = wczyt_gry(plik_war_slot(2), war, gracz, ods_z_p, graf_z_p);
+                if(!ok)
+                {
+                    cout << "Slot 2 jest pusty albo zapis jest uszkodzony.\n";
+                    pauza();
+                    system("cls");
+                    break;
+                }
+            
+                war_ods = ods_z_p;
+                war_graf = graf_z_p;
+            
+                warcaby_wczytane(war, gracz, war_ods, war_graf);
+                system("cls");
+                break;
+            }
+
+        case '3':
+            {
+                system("cls");
+            
+                char war[8][8];
+                char gracz = 'O';
+            
+                bool ods_z_p = war_ods;
+                bool graf_z_p = war_graf;
+            
+                bool ok = wczyt_gry(plik_war_slot(3), war, gracz, ods_z_p, graf_z_p);
+                if(!ok)
+                {
+                    cout << "Slot 3 jest pusty albo zapis jest uszkodzony.\n";
+                    pauza();
+                    system("cls");
+                    break;
+                }
+            
+                war_ods = ods_z_p;
+                war_graf = graf_z_p;
+            
+                warcaby_wczytane(war, gracz, war_ods, war_graf);
+                system("cls");
+                break;
+            }
+
+        case '4':
+             {
+                system("cls");
+            
+                char war[8][8];
+                char gracz = 'O';
+            
+                bool ods_z_p = war_ods;
+                bool graf_z_p = war_graf;
+            
+                bool ok = wczyt_gry(plik_war_slot(4), war, gracz, ods_z_p, graf_z_p);
+                if(!ok)
+                {
+                    cout << "Slot 4 jest pusty albo zapis jest uszkodzony.\n";
+                    pauza();
+                    system("cls");
+                    break;
+                }
+            
+                war_ods = ods_z_p;
+                war_graf = graf_z_p;
+            
+                warcaby_wczytane(war, gracz, war_ods, war_graf);
+                system("cls");
+                break;
+            }
+
+        case 'X':
+        case 'x':
+            return;
+
+    default:
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        break;
+    }
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+}  
 }
 
-//=======================================================================================================================================================================
+//===================================================================================================================================================================
 
-void warcaby(bool war_ods, bool war_graf)
+bool menu_zapisu(char war[8][8], char gracz, bool war_ods, bool war_graf)
 {
+ while(true)
+    {
+    string tryb;
+    wys("\\\\\\\\\\\\\\\\ ZAPIS GRY ////////");
+    cout << endl;   
+
+
+    bool s1 = slot_zajety(plik_war_slot(1));
+    bool s2 = slot_zajety(plik_war_slot(2));
+    bool s3 = slot_zajety(plik_war_slot(3));
+    bool s4 = slot_zajety(plik_war_slot(4));
+
+
+    string stan1, stan2, stan3, stan4;
+
+    if(s1) stan1 = "zajety"; else stan1 = "pusty";
+    if(s2) stan2 = "zajety"; else stan2 = "pusty";
+    if(s3) stan3 = "zajety"; else stan3 = "pusty";
+    if(s4) stan4 = "zajety"; else stan4 = "pusty";
+
+    wys("- (1) SLOT 1 [" + stan1 + "] -");
+    wys("- (2) SLOT 2 [" + stan2 + "] -");
+    wys("- (3) SLOT 3 [" + stan3 + "] -");
+    wys("- (4) SLOT 4 [" + stan4 + "] -");
+    wys("- (P) Powrot do gry -");
+    wys("- (X) Powrot do MENU -");
+    cout << "Wybierz opcje: "; 
+    getline(cin >> ws, tryb);
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || 
+       tryb[0] == '4' || tryb[0] == 'p' ||tryb[0] == 'P' || tryb[0] == 'X' || tryb[0] == 'x'))
+{
+
+    switch (tryb[0])
+    {
+       case '1':
+            {
+                system("cls");
+            
+                if(s1)
+                {
+                    bool nadpisz = pytanie_tak_nie("Slot 1 jest zajety. Nadpisac? (tak/nie)");
+                    if(!nadpisz)
+                    {
+                        system("cls");
+                        break;
+                    }
+                }
+            
+                bool zapisane = zapis_gry(plik_war_slot(1), war, gracz, war_ods, war_graf);
+                if(zapisane) wys("Zapisano do SLOT 1");
+                else   wys("Blad zapisu do pliku");
+            
+                pauza();
+                system("cls");
+                break;
+            }
+
+        case '2':
+            {
+                system("cls");
+            
+                if(s2)
+                {
+                    bool nadpisz = pytanie_tak_nie("Slot 2 jest zajety. Nadpisac? (tak/nie)");
+                    if(!nadpisz)
+                    {
+                        system("cls");
+                        break;
+                    }
+                }
+            
+                bool zapisane = zapis_gry(plik_war_slot(2), war, gracz, war_ods, war_graf);
+                if(zapisane) wys("Zapisano do SLOT 2");
+                else   wys("Blad zapisu do pliku");
+            
+                pauza();
+                system("cls");
+                break;
+            }
+
+        case '3':
+            {
+                system("cls");
+            
+                if(s3)
+                {
+                    bool nadpisz = pytanie_tak_nie("Slot 3 jest zajety. Nadpisac? (tak/nie)");
+                    if(!nadpisz)
+                    {
+                        system("cls");
+                        break;
+                    }
+                }
+            
+                bool zapisane = zapis_gry(plik_war_slot(3), war, gracz, war_ods, war_graf);
+                if(zapisane) wys("Zapisano do SLOT 3");
+                else   wys("Blad zapisu do pliku");
+            
+                pauza();
+                system("cls");
+                break;
+            }
+
+        case '4':
+             {
+                system("cls");
+            
+                if(s4)
+                {
+                    bool nadpisz = pytanie_tak_nie("Slot 4 jest zajety. Nadpisac? (tak/nie)");
+                    if(!nadpisz)
+                    {
+                        system("cls");
+                        break;
+                    }
+                }
+            
+                bool zapisane = zapis_gry(plik_war_slot(4), war, gracz, war_ods, war_graf);
+                if(zapisane) wys("Zapisano do SLOT 4");
+                else   wys("Blad zapisu do pliku");
+            
+                pauza();
+                system("cls");
+                break;
+            }
+
+        case 'P':
+        case 'p':
+            return false;
+            
+        
+        case 'X':
+        case 'x':
+            return true;
+            
+
+    default:
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        break;
+    }
+    }
+    else
+    {
+        system("cls");
+        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+    }
+}  
+    return false; 
+}
+
+//===================================================================================================================================================================
+
+bool zapis_gry(const string& zapis, char war[8][8], char gracz, bool war_ods, bool war_graf)
+{
+    ofstream plik(zapis.c_str());
+    if(!plik.is_open())
+    {
+        return false;
+    }
     
+    plik << "gracz=" << gracz << "\n";
+    
+    int p_graf = 0; 
+    int p_ods = 0;
+    if(war_graf) p_graf = 1;
+    if(war_ods) p_ods = 1;
+
+    plik << "graf=" << p_graf << "\n";
+    plik << "ods=" << p_ods << "\n";
+
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            char pust = war[i][j];
+            if(pust == ' ') pust = '.';
+            plik << pust; 
+        }
+        plik << "\n";
+    }
+
+    return true; 
+}
+
+//===================================================================================================================================================================
+
+string plik_war_slot(int slot)
+{
+    if(slot == 1) return "war_slot1.txt";
+    if(slot == 2) return "war_slot2.txt";
+    if(slot == 3) return "war_slot3.txt";
+    if(slot == 4) return "war_slot4.txt";
+    return "";
+}
+
+//===================================================================================================================================================================
+
+void usun_karetke(string& linia)
+{
+    if(!linia.empty() && linia[linia.size() - 1] == '\r')
+    {
+        linia.erase(linia.size() - 1);
+    }
+}
+
+//===================================================================================================================================================================
+
+bool slot_zajety(const string& zapis)
+{
+    ifstream plik(zapis.c_str());
+    if(!plik.is_open())
+    {
+        return false;
+    }
+
+    string l1, l2, l3;
+
+    if(!getline(plik, l1)) return false;
+    if(!getline(plik, l2)) return false;
+    if(!getline(plik, l3)) return false;
+
+    usun_karetke(l1);
+    usun_karetke(l2);
+    usun_karetke(l3);
+
+    if(l1.size() < 7) return false;
+    if(l1.substr(0, 6) != "gracz=") return false;
+    if(l1[6] != 'O' && l1[6] != '@') return false;
+
+    if(l2.size() < 6) return false;
+    if(l2.substr(0, 5) != "graf=") return false;
+    if(l2[5] != '0' && l2[5] != '1') return false;
+
+    if(l3.size() < 5) return false;
+    if(l3.substr(0, 4) != "ods=") return false;
+    if(l3[4] != '0' && l3[4] != '1') return false;
+
+    for(int i = 0; i < 8; i++)
+    {
+        string p_wier;
+        if(!getline(plik, p_wier)) return false;
+        usun_karetke(p_wier);
+
+        if(p_wier.size() != 8) return false;
+
+        for(int j = 0; j < 8; j++)
+        {
+            char c = p_wier[j];
+
+            if(c != '*' && c != '.' && c != 'O' && c != '@' && c != '%' && c != '&')
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+//===================================================================================================================================================================
+
+bool wczyt_gry(const string& zapis, char war[8][8], char& gracz, bool& war_ods, bool& war_graf)
+{
+    ifstream plik (zapis.c_str());
+
+    if(!plik.is_open())
+    {
+        return false; 
+    }
+
+    string l1;
+    string l2;
+    string l3;
+
+    if(!getline(plik, l1)) return false;
+    if(!getline(plik, l2)) return false;
+    if(!getline(plik, l3)) return false;
+
+    // ussuniecie karetki na wszelki wypadek
+    usun_karetke(l1);
+    usun_karetke(l2);
+    usun_karetke(l3);
+
+    //wyluskanie ifnormacji jakiego gracza teraz jest kolej
+    if(l1.size() < 7) return false;
+    if(l1.substr(0, 6) != "gracz=") return false;
+
+    char czy_gracz = l1[6];
+    if(czy_gracz != 'O' && czy_gracz != '@') return false;
+    gracz = czy_gracz;
+
+    // ustawienia: wizualiacja graficzna
+    if(l2.size() < 6) return false;                 
+    if(l2.substr(0, 5) != "graf=") return false;
+
+    char czy_graf = l2[5];
+    if(czy_graf == '0') war_graf = false;
+    else if(czy_graf == '1') war_graf = true;
+    else return false;
+
+    // ustawienia: automatyczne odswierzanie
+    if(l3.size() < 5) return false;                 
+    if(l3.substr(0, 4) != "ods=") return false;
+
+    char czy_ods = l3[4];
+    if(czy_ods == '0') war_ods = false;
+    else if(czy_ods == '1') war_ods = true;
+    else return false;
+
+    // wczytanie planszy 
+    for(int i = 0; i < 8; i++)
+    {
+        string p_wier;
+        if(!getline(plik, p_wier)) return false;
+
+        usun_karetke(p_wier);
+
+        if(p_wier.size() != 8) return false;
+
+        for(int j = 0; j < 8; j++)
+        {
+            char komurka = p_wier[j];
+            if(komurka == '.') komurka = ' ';
+
+            if(komurka != '*' && komurka != ' ' && komurka != 'O' && komurka != '@' && komurka != '%' && komurka != '&')
+            {
+                return false;
+            }
+
+            war[i][j] = komurka;
+        }
+    }
+
+    return true;
+}
+
+//===================================================================================================================================================================
+
+void warcaby(bool& war_ods, bool& war_graf)
+{
     char war[8][8];
     ustaw_war_plansz_0(war);
-    
-    bool koniec = false;
+
     char gracz = 'O';
+
+    warcaby_wczytane(war, gracz, war_ods, war_graf);
+}
+
+//===================================================================================================================================================================
+
+void warcaby_wczytane(char war[8][8], char gracz, bool& war_ods, bool& war_graf)
+{
+    bool koniec = false;
+    
     war_svg(war, war_ods, war_graf);
 
     if(war_ods == false && war_graf == true)
@@ -861,8 +1416,38 @@ void warcaby(bool war_ods, bool war_graf)
         {
             cout << "Podaj pole startowe: ";
             cin >> z; czysc();
+
+            if(z.size() == 1 && (z[0] == 'x' || z[0] == 'X'))
+            {
+                system("cls");
+                bool do_menu = menu_zapisu(war, gracz, war_ods, war_graf);
+                system("cls");
+            
+                if(do_menu) return; // wracamy do menu
+
+                war_plansza(war);
+                cout << "Ruch gracza: " << gracz << endl;
+                war_svg(war, war_ods, war_graf);
+                continue; // wracamy do gry
+            }
+
+        
             cout << "Podaj pole docelowe: ";
             cin >> d; czysc();
+
+            if(d.size() == 1 && (d[0] == 'x' || d[0] == 'X'))
+            {
+                system("cls");
+                bool do_menu = menu_zapisu(war, gracz, war_ods, war_graf);
+                system("cls");
+            
+                if(do_menu) return; // wracamy do menu
+
+                war_plansza(war);
+                cout << "Ruch gracza: " << gracz << endl;
+                war_svg(war, war_ods, war_graf);
+                continue; // wracamy do gry
+            }
 
             int zwier, zkol, dwier, dkol;
            
@@ -940,7 +1525,7 @@ void warcaby(bool war_ods, bool war_graf)
                     war[zwier][zkol] = '*';
                     war[dwier][dkol] = fig;
                     damkowanie(war, dwier, dkol); 
-                    dobry_ruch = true;
+                    dobry_ruch = true;          
                 }
                 else
                 {
@@ -994,9 +1579,23 @@ void warcaby(bool war_ods, bool war_graf)
                     zkol  = dkol;
                 
                     cout << "Podaj pole docelowe: ";
-                    cin >> d; 
+                    cin >> d;
                     czysc();
-                
+                    
+                    if(d.size() == 1 && (d[0] == 'x' || d[0] == 'X'))
+                    {
+                        system("cls");
+                        bool do_menu = menu_zapisu(war, gracz, war_ods, war_graf);
+                        system("cls");
+                    
+                        if(do_menu) return; // wracamy do menu
+                    
+                        war_plansza(war);
+                        cout << "Ruch gracza: " << gracz << endl;
+                        war_svg(war, war_ods, war_graf);
+                        continue; // wracamy do gry
+                    } 
+                    
                     bool OKd = pole_na_tab(d, dwier, dkol);
                     if(!OKd)
                     {
@@ -1080,6 +1679,7 @@ void warcaby(bool war_ods, bool war_graf)
         system("cls");
         war_plansza(war);
         war_svg(war, war_ods, war_graf);
+        
 
     }
     czysc();

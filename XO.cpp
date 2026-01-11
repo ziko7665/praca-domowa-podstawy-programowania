@@ -79,7 +79,7 @@ void menu_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
 
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
 {
@@ -140,7 +140,7 @@ void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
                 while(true)
                 {
                     cout << "Podajac 0, usuwasz limit czasu" << endl << endl;
-                    XO_czas = wczytaj_int("Podaj limit czasu dla graczy: ");
+                    XO_czas = wczytaj_int("Podaj limit czasu dla graczy (w sekundach): ");
                     czysc();
                     if(XO_czas >= 0)
                     {
@@ -177,7 +177,7 @@ void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
     pauza(); 
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void XO_svg_plansza(char XO[3][3], bool XO_graf, bool XO_ods) 
     {
@@ -237,7 +237,7 @@ void XO_svg_plansza(char XO[3][3], bool XO_graf, bool XO_ods)
 
     }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX, int XO_czas) 
 {
@@ -247,10 +247,33 @@ void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX,
         czasX = -1;
     }
 
+    int minO, sekO, minX, sekX;
+
+    if(czasO >= 0)
+    {
+        minO = czasO / 60;
+        sekO = czasO % 60;
+    }
+    else
+    {
+        minO = 0;
+        sekO = 0;
+    }
+    
+    if(czasX >= 0)
+    {
+        minX = czasX / 60;
+        sekX = czasX % 60;
+    }
+    else
+    {
+        minX = 0;
+        sekX = 0;
+    }
+
     int w = (szer_cmd() - 30) / 2; 
     int x = szer_cmd() - 20;
-    int sekO = czasO % 60;
-    int sekX = czasX % 60; 
+    
     cout << " " << graf_plansza_XO[0][0] << " | " << graf_plansza_XO[0][1] << " | " << graf_plansza_XO[0][2] << " " << setw(w) << XO[0][0] << " | " << XO[0][1] << " | " << XO[0][2] << " " << endl;
     cout << "---+---+---" << setw(w+9) << "---+---+---" << endl;
     cout << " " << graf_plansza_XO[1][0] << " | " << graf_plansza_XO[1][1] << " | " << graf_plansza_XO[1][2] << " " << setw(w) << XO[1][0] << " | " << XO[1][1] << " | " << XO[1][2] << " " << endl;
@@ -258,18 +281,34 @@ void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX,
     cout << " " << graf_plansza_XO[2][0] << " | " << graf_plansza_XO[2][1] << " | " << graf_plansza_XO[2][2] << " " << setw(w) << XO[2][0] << " | " << XO[2][1] << " | " << XO[2][2] << " " << endl;
    
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)0}); //ustawianie kursora pod wypisanie czasu
-    if(czasO == -1) cout << "                   " << endl; // brak wypisania czasu jezeli czas jest rowny -1
-    else if(sekO < 10) cout << "Czas gracza O: 0:0" << sekO << endl; 
-    else cout << "Czas gracza O: 0:" << sekO << endl;
+    if(czasO == -1) cout << "                   " << endl; //brak wypisania czasu kiedy czas jest -1(komputer gra tym znakiem)
+    else
+    {
+        cout << "Czas gracza O: ";
+
+        if(minO < 10) cout << "0";
+        cout << minO << ":";
+
+        if(sekO < 10) cout << "0";
+        cout << sekO << endl;
+    }
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)2});
     if(czasO == -1)SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)x, (SHORT)0}); // ustawienie kursora w miejsce czasu O gdy komputer gra jako O
     if(czasX == -1) cout << "                   " << endl;
-    else if(sekX < 10) cout << "Czas gracza X: 0:0" << sekX << endl;
-    else cout << "Czas gracza X: 0:" << sekX << endl;
+    else
+    {
+        cout << "Czas gracza X: ";
+
+        if(minX < 10) cout << "0";
+        cout << minX << ":";
+
+        if(sekX < 10) cout << "0";
+        cout << sekX << endl;
+    }
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD{(SHORT)0, (SHORT)5});
 }   
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void XO_plansza_wygrana(char XO[3][3])  
 {
@@ -283,7 +322,7 @@ void XO_plansza_wygrana(char XO[3][3])
    
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void gra_XO(bool XO_ods, bool XO_graf, int XO_czas)  
 {
@@ -479,7 +518,7 @@ void gra_XO(bool XO_ods, bool XO_graf, int XO_czas)
     }  
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)  
 {
@@ -493,9 +532,6 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
 
         if(XO_graf && XO_ods)
         {
-            
-            string cmd = "start XO.svg";
-            system(cmd.c_str());
             wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
             wys("Jesli jestes gotowy");
             pauza();
@@ -503,6 +539,8 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
         }
         else if(XO_graf && !XO_ods)
         {
+            string cmd = "start XO.svg";
+            system(cmd.c_str());
             wys("Przyklej okno konsoli do lewej strony ekranu, a okno z graficzna reprezentacja do prawej strony ekranu.");
             wys("Jesli jestes gotowy");
             pauza();
@@ -516,20 +554,19 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
         char graf_plansza_XO[3][3] = { {'1','2','3'}, {'4','5','6'}, {'7','8','9'} };
     
 
-    bool gracz_start;
-    bool start = pytanie_tak_nie("Czy chcesz zaczynac gre jako pierwszy? (tak/nie)"); // ustalenie kto zaczyna oraz tego ktory czas bedzie wyswietlany 
+    bool gracz_start = pytanie_tak_nie("Czy chcesz zaczynac gre jako pierwszy? (tak/nie)"); // ustalenie kto zaczyna oraz tego ktory czas bedzie wyswietlany 
 
     if(XO_czas != 0)
     {
-    if(start)
+    if(gracz_start)
     {
-        gracz_start = true; 
+        
         czasO = XO_czas;
         czasX = -1;
     }
     else 
     {
-        gracz_start = false;
+        
         czasO = -1;
         czasX = XO_czas;
     }
@@ -541,7 +578,9 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
     
     system("cls");
     XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
-    auto lc_start = std::chrono::steady_clock::now(); // poczatek liczenia czasu
+    
+    
+
         char kznak;
         char gznak;
         if(gracz_start == true) //ustalenie znakow komputera i gracza
@@ -555,16 +594,49 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
             gznak = 'X';
         }
     
-    if(i % 2 == 0 && gracz_start == true || i % 2 != 0 && gracz_start == false)
-    {
-        
-        cout << "Postaw " << gznak << endl;
-        
-        n = wczytaj_int("Wybierz pole: ");
+    
     
         
 
-    }
+    if(i % 2 == 0 && gracz_start == true || i % 2 != 0 && gracz_start == false)
+    {
+        cout << "Postaw " << gznak << endl;
+
+        auto lc_start = std::chrono::steady_clock::now();
+        n = wczytaj_int("Wybierz pole: ");
+
+        if(XO_czas != 0)
+        {
+            auto lc_koniec = std::chrono::steady_clock::now();
+            auto ile_czas = std::chrono::duration_cast<std::chrono::seconds>(lc_koniec - lc_start).count();
+
+            if(gznak == 'O') czasO -= ile_czas;
+            else if(gznak == 'X') czasX -= ile_czas;
+
+            if(gznak == 'O' && czasO <= 0)
+            {
+                system("cls");
+                wys("KONIEC GRY!!!");
+                cout << endl;
+                XO_plansza_wygrana(XO);
+                cout << endl;
+                wys(":( CZAS GRACZA O SIE SKONCZYL :(");
+                wys("$$$ GRACZ X WYGRYWA $$$");
+                break;
+            }
+            else if(gznak == 'X' && czasX <= 0)
+            {
+                system("cls");
+                wys("KONIEC GRY!!!");
+                cout << endl;
+                XO_plansza_wygrana(XO);
+                cout << endl;
+                wys(":( CZAS GRACZA X SIE SKONCZYL :(");
+                wys("$$$ GRACZ O WYGRYWA $$$");
+                break;
+            }
+        }
+    }   
     else 
     { 
       //ustawienie czasu komputera na -1, co powoduje ze jego czas nie bedzie wyswietlany 
@@ -618,40 +690,10 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
             }
        }   
     }
-    auto lc_koniec = std::chrono::steady_clock::now(); // koniec liczenia czasu
-        auto ile_czas = std::chrono::duration_cast<std::chrono::seconds>(lc_koniec - lc_start).count(); //sprawdzenie ile czasu gracz stawial znak
-
-    if(gznak == 'O') // odjecie czasu stawiania od czasu gracza
-        {
-            czasO -= ile_czas;
-        }
-        else if (gznak == 'X') 
-        {
-            czasX -= ile_czas;
-        }
     
-    if(czasO <= 0) // sprawdzenie czy czas sie skonczyl
-        {
-            system("cls");
-            wys("KONIEC GRY!!!");
-            cout << endl;
-            XO_plansza_wygrana(XO);
-            cout << endl;
-            wys(":( CZAS GRACZA O SIE SKONCZYL :(");
-            wys("$$$ GRACZ X WYGRYWA $$$");
-            break;  
-        }
-        else if(czasX <= 0)
-        {
-            system("cls");
-            wys("KONIEC GRY!!!");
-            cout << endl;
-            XO_plansza_wygrana(XO);
-            cout << endl;
-            wys(":( CZAS GRACZA X SIE SKONCZYL :(");
-            wys("$$$ GRACZ O WYGRYWA $$$");
-            break;  
-        }
+
+
+
     XO_plansza(XO, graf_plansza_XO, czasO, czasX, XO_czas);
     
     //Stawianie znaków na planszy
@@ -751,7 +793,7 @@ void gra_XO_PC(bool XO_ods, bool XO_graf, int XO_czas)
 
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void sprawdz_czy_n_jest(vector<int>& kandydat, int n)  
 {
@@ -843,7 +885,7 @@ bool znak_obok_znaku(char XO[3][3], char kznak, int &n)
     }
 }
 
-//====================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool blokuj_gracza(char XO[3][3], char gznak, int &n) 
 {

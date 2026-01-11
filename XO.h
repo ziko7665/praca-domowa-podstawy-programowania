@@ -10,7 +10,7 @@
 // Menu trybu gry w kolko i krzyzyk
 void menu_XO(bool& XO_ods, bool& XO_graf, int& XO_czas); 
 
-
+// Wyswietla menu ustawien gry i pozwala zmienic tryb grafiki, odswiezanie oraz czas dla graczy
 void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas);
 
 // Gra kolko i krzyzyk gracz vs gracz w konsoli z obsluga czasu i opcjonalnie SVG
@@ -26,7 +26,7 @@ void XO_plansza(char XO[3][3], char graf_plansza_XO[3][3], int czasO, int czasX,
 void XO_plansza_wygrana(char XO[3][3]);
 
 // Generuje plik XO.svg z aktualnym stanem planszy (siatka plus znaki X i O)
-void XO_svg_plansza(char XO[3][3]);
+void XO_svg_plansza(char XO[3][3], bool XO_graf, bool XO_ods);
 
 // Dopisuje numer pola do listy kandydatow tylko jesli jeszcze go tam nie ma
 void sprawdz_czy_n_jest(std::vector<int>& kandydat, int n);

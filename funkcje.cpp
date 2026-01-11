@@ -19,7 +19,7 @@ int szer_cmd()
     return csbi.srWindow.Right - csbi.srWindow.Left + 1;
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void wys(const std::string& tekst) 
 {
@@ -30,14 +30,14 @@ void wys(const std::string& tekst)
     std::cout << std::string(spacje, ' ') << tekst << std::endl;
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 int losuj_oddo(int min, int max) 
 {
     return min + rand() % (max - min + 1);
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 int wczytaj_int(const std::string& komunikat) 
 {
@@ -57,7 +57,7 @@ int wczytaj_int(const std::string& komunikat)
     }
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void pauza() 
 {
@@ -67,7 +67,7 @@ void pauza()
     std::getline(std::cin, linia);
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void czysc() 
 {
@@ -75,7 +75,7 @@ void czysc()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void utnij_bialy_koniec(std::string& tekst) 
 {   
@@ -88,7 +88,7 @@ void utnij_bialy_koniec(std::string& tekst)
 
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 bool pytanie_tak_nie(const std::string pytanie) 
 {
@@ -120,7 +120,7 @@ bool pytanie_tak_nie(const std::string pytanie)
     }
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 void pomoc_menu()
 {
@@ -136,7 +136,7 @@ void pomoc_menu()
     wys("- (X) Powrot do MENU -");
     std::cout << "Wybierz opcje: "; 
     std::getline(std::cin >> std::ws, tryb);
-    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == 'X' || tryb[0] == 'x'))
+    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == '4' || tryb[0] == 'X' || tryb[0] == 'x'))
 {
 
     switch (tryb[0])
@@ -183,7 +183,7 @@ void pomoc_menu()
 }
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
 
 std::string wybor_koloru() 
 {
@@ -246,7 +246,8 @@ std::string wybor_koloru()
     return kolor;
 }
 
-//=====================================================================================================================================================================
+//===================================================================================================================================================================
+
 void pomoc_SVG() 
 {
     system("cls");
@@ -301,7 +302,7 @@ void pomoc_SVG()
     wys("---+---+---");
     wys("7 | 8 | 9");
     std::cout << std::endl;
-    wys("Pod znajduje sie informacja, ktory gracz wykonuje ruch.");
+    wys("Pod nia znajduje sie informacja, ktory gracz wykonuje ruch.");
     wys("Cyfra w polu oznacza ze jest ono wolne.");
     wys("Gdy gracz wybierze pole, numer zniknie, co oznacza ze pole jest juz zajete.");
     std::cout << std::endl;
@@ -314,7 +315,9 @@ void pomoc_SVG()
     wys("   |   |   ");
     std::cout << std::endl;
     wys("Po prawej stronie wyswietla sie ile czasu zostalo danemu graczowi.");
-    wys("Czas dla kazdego z graczy wynosi on 30s.");
+    wys("Podstawowy czas dla kazdego z graczy wynosi on 30s.");
+    wys("W ustawieniach gry, jest mozliwosc zmiany czasu,");
+    wys("oraz jego calkowite wylaczenie.");
     std::cout << std::endl;
     wys("Czas gracza O: 0:30");
     wys("Czas gracza X: 0:30");
@@ -322,24 +325,125 @@ void pomoc_SVG()
     wys("W przypadku trybu Gracz VS PC, czas wyswietla sie tylko dla gracza.");
     std::cout << std::endl;
     wys("# PLIK SVG DO GRY #");
+    std::cout << std::endl; 
     wys("W trakcie gry generowany jest plik SVG,");
     wys("ktory wizualizuje aktualny stan planszy gry w kolko i krzyzyk.");
     wys("Plik ten jest nadpisywany przy kazdym ruchu gracza i nalezy odswierzyc, aby zobaczyć zmiany.");
     wys("Jezeli chcesz zobaczyc plik SVG, znajdziesz go w folderze z programem pod nazwa 'XO.svg'.");
+    wys("W ustawieniach gry jest mozliwosc wylączania wizualizacji graficznej.");
+    wys("A takze wlaczyc tryb odswierzania automatycznego, ktory otwiera");
+    wys("nowa karte z aktualnym stanem gry.");
     std::cout << std::endl;
     wys("MILEJ ZABAWY!!!");
     std::cout << std::endl << std::endl;
     pauza();
  }
 
- void pomoc_Warcaby() 
- {
-    wys("INSTRUKCJA DO GRY WARCABY");
-    pauza();
- }
+void pomoc_Warcaby()
+{
+    system("cls");
+    wys("### INSTRUKCJA DO GRY WARCABY ###");
+    std::cout << std::endl;
 
-  void pomoc_ogolna() 
-  {
-    wys("OGOLNE INFORMACJE");
+    wys("# PODSTAWY #");
+    std::cout << std::endl;
+    wys("Gra to odmiana warcab Checkers");
+    wys(" czyli angilska/amerykanska wersja ");
+    wys("Gra toczy sie na planszy 8x8");
+    wys("Gracze wykonuja ruchy na zmiane");
+    wys("Gracz O zawsze zaczyna jako pierwszy");
+    std::cout << std::endl;
+
+    wys("# JAK WYGLADA PLANSZA #");
+    std::cout << std::endl;
+    wys("Pola z gwiazdka * (czarne) to pola gry na ktorych mozna stawiac pionki");
+    wys("Puste pola (biale) to pola gry na ktorych nie mozna stawiac pionkow ");
+    wys("O (bialy) oraz @ (czarny) to zwykle pionki graczy");
+    wys("% (bialy) oraz & (czarny) to damki graczy");
+    std::cout << std::endl;
+
+    wys("# JAK WYKONAC RUCH #");
+    std::cout << std::endl;
+    wys("Podajesz pole startowe i pole docelowe w formacie typu a3 lub h6");
+    wys("Litera to kolumna od a do h");
+    wys("Cyfra to wiersz od 1 do 8");
+    std::cout << std::endl;
+
+    wys("# ZASADY RUCHU #");
+    std::cout << std::endl;
+    wys("Zwykly pionek porusza sie o jedno pole po skosie do przodu");
+    wys("Damka porusza sie o jedno pole po skosie w kazda strone");
+    std::cout << std::endl;
+
+    wys("# BICIE #");
+    std::cout << std::endl;
+    wys("Jesli masz mozliwosc bicia to musisz bic");
+    wys("Bicie polega na przeskoku o dwa pola po skosie nad pionkiem przeciwnika");
+    wys("Po biciu mozesz miec kolejne bicie i wtedy kontynuujesz w tej samej turze");
+    std::cout << std::endl;
+
+    wys("# DAMKA #");
+    std::cout << std::endl;
+    wys("Pionek O zostaje damka (%) na gornej krawedzi planszy");
+    wys("Pionek @ zostaje damka (&) na dolnej krawedzi planszy");
+    std::cout << std::endl;
+
+    wys("# ZAPIS W TRAKCIE GRY #");
+    std::cout << std::endl;
+    wys("Gdy program pyta o pole mozesz wpisac X");
+    wys("Wtedy otworzy sie menu zapisu i wybierasz od slot 1 do 4");
+    wys("Jesli slot jest zajety program zapyta czy nadpisac");
+    wys("P oznacza powrot do gry");
+    wys("X w menu zapisu oznacza powrot do menu");
+    std::cout << std::endl;
+
+    wys("# SVG DO WARCABOW #");
+    std::cout << std::endl;
+    wys("W trakcie gry moze byc generowany plik SVG");
+    wys("Plik pokazuje aktualny stan planszy w trybie graficznym");
+    wys("Jesli przegladarka nie pokazuje zmian odswiez strone (F5)");
+    wys("Plik znajduje sie w folderze z programem");
+    std::cout << std::endl;
+
+    wys("MILEJ ZABAWY!!!");
+    std::cout << std::endl << std::endl;
     pauza();
-  }
+}
+
+void pomoc_ogolna()
+{
+    system("cls");
+    wys("### POMOC OGOLNA ###");
+    std::cout << std::endl;
+
+    wys("# MENU I STEROWANIE #");
+    std::cout << std::endl;
+    wys("W menu wpisujesz jedna litere lub cyfre zgodnie z opisem na ekranie");
+    wys("W wielu miejscach wielkosc liter nie ma znaczenia");
+    wys("Jesli wpiszesz cos zle, program poprosi o ponowne wpisanie");
+    std::cout << std::endl;
+
+    wys("# PLIKI I ZAPIS #");
+    std::cout << std::endl;
+    wys("Pliki zapisu i pliki SVG zapisuja sie w folderze z programem");
+    wys("Plik z reprezentacja graficzna do XO nazywa sie XO.svg");
+    wys("Zapis w slotach to pliki typu war_slot1.txt war_slot2.txt itd");
+    wys("Jesli plik jest uszkodzony program potraktuje slot jako pusty");
+    std::cout << std::endl;
+
+    wys("# TRYB GRAFICZNY SVG #");
+    std::cout << std::endl;
+    wys("SVG to plik ktory otwierasz w przegladarce i widzisz rysunek gry");
+    wys("Program moze nadpisywac ten sam plik po kazdym ruchu");
+    wys("Jesli nie widac zmian odswiez karte w przegladarce (F5)");
+    std::cout << std::endl;
+
+    wys("# ODSWIEZANIE #");
+    std::cout << std::endl;
+    wys("Opcja odswiezania automatycznego otwieraa plik SVG po kazdym ruchu");
+    wys("Jesli to przeszkadza mozna to wylaczyc w ustawieniach danej gry");
+    std::cout << std::endl;
+
+
+    pauza();
+}

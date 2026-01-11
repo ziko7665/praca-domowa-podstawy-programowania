@@ -50,6 +50,7 @@ int main() {
         wys("- (X) Wyjscie z programu -");
         cout << "Wybierz opcje: ";
         getline(cin >> ws, opcje);
+        if (opcje.empty()) continue; 
         if(opcje.size() == 1 && (opcje[0] == '1' || opcje[0] == '2' || opcje[0] == '3' || opcje[0] == '4' || opcje[0] == 'H' || opcje[0] == 'h' || opcje[0] == 'X' || opcje[0] == 'x'))
         {
 
