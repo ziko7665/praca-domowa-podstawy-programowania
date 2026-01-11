@@ -147,7 +147,7 @@ void ustawienia_XO(bool& XO_ods, bool& XO_graf, int& XO_czas)
                         system("cls");
                         break;
                     }
-                    else
+                    else    
                     {
                         continue;
                     }

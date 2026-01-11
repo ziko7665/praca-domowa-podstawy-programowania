@@ -1566,51 +1566,57 @@ void warcaby_wczytane(char war[8][8], char gracz, bool& war_ods, bool& war_graf)
                 war_plansza(war);
                 war_svg(war, war_ods, war_graf);
             
+                int bwier = dwier;
+                int bkol  = dkol;
+
                 bool koniec_bicia = false;
                 if(!damka)
                 {
-                    if(gracz == 'O' && dwier == 0) koniec_bicia = true;
-                    if(gracz == '@' && dwier == 7) koniec_bicia = true;
+                    if(gracz == 'O' && bwier == 0) koniec_bicia = true;
+                    if(gracz == '@' && bwier == 7) koniec_bicia = true;
                 }
-            
-                while(!koniec_bicia && pion_ma_bicie(war, dwier, dkol))
+
+                while(!koniec_bicia && pion_ma_bicie(war, bwier, bkol))
                 {
-                    zwier = dwier;
-                    zkol  = dkol;
+                    // start bicia z aktualnej pozycji pionka
+                    zwier = bwier;
+                    zkol  = bkol;
                 
                     cout << "Podaj pole docelowe: ";
                     cin >> d;
                     czysc();
-                    
+                
                     if(d.size() == 1 && (d[0] == 'x' || d[0] == 'X'))
                     {
                         system("cls");
                         bool do_menu = menu_zapisu(war, gracz, war_ods, war_graf);
                         system("cls");
                     
-                        if(do_menu) return; // wracamy do menu
+                        if(do_menu) return;
                     
                         war_plansza(war);
                         cout << "Ruch gracza: " << gracz << endl;
                         war_svg(war, war_ods, war_graf);
-                        continue; // wracamy do gry
-                    } 
-                    
-                    bool OKd = pole_na_tab(d, dwier, dkol);
+                        continue;
+                    }
+                
+                    // docelowe pole na tymczasowej zmiennej
+                    int nwier, nkol;
+                    bool OKd = pole_na_tab(d, nwier, nkol);
                     if(!OKd)
                     {
                         cout << "Niepoprawny format ruchu, sprobuj ponownie." << endl << endl;
                         continue;
                     }
                 
-                    if(war[dwier][dkol] != '*')
+                    if(war[nwier][nkol] != '*')
                     {
                         cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
                         continue;
                     }
                 
-                    kier_weir = dwier - zwier;
-                    kier_kol  = dkol - zkol;
+                    kier_weir = nwier - zwier;
+                    kier_kol  = nkol  - zkol;
                 
                     warunek_bicia = false;
                     if(damka)
@@ -1630,8 +1636,8 @@ void warcaby_wczytane(char war[8][8], char gracz, bool& war_ods, bool& war_graf)
                         continue;
                     }
                 
-                    wier_po_sr = (zwier + dwier) / 2;
-                    kol_po_sr  = (zkol + dkol) / 2;
+                    wier_po_sr = (zwier + nwier) / 2;
+                    kol_po_sr  = (zkol  + nkol)  / 2;
                 
                     srodek = war[wier_po_sr][kol_po_sr];
                     jest_przeciwnik = false;
@@ -1651,24 +1657,35 @@ void warcaby_wczytane(char war[8][8], char gracz, bool& war_ods, bool& war_graf)
                         continue;
                     }
                 
-                    ruch_bicia(war, wier_po_sr, kol_po_sr, zwier, zkol, dwier, dkol);
+                    
+                    ruch_bicia(war, wier_po_sr, kol_po_sr, zwier, zkol, nwier, nkol);
+                
+                    // aktualizujemy pozycji pionka bo bicie juz przeszlo 
+                    bwier = nwier;
+                    bkol  = nkol;
+                
                     system("cls");
                     war_plansza(war);
                     war_svg(war, war_ods, war_graf);
                 
                     if(!damka)
                     {
-                        if(gracz == 'O' && dwier == 0) koniec_bicia = true;
-                        if(gracz == '@' && dwier == 7) koniec_bicia = true;
+                        if(gracz == 'O' && bwier == 0) koniec_bicia = true;
+                        if(gracz == '@' && bwier == 7) koniec_bicia = true;
                     }
                 }
-            
+
+                // dopiero po CALEJ serii bic przenosimy zmienne na dwier i dkol
+                dwier = bwier;
+                dkol  = bkol;
+
                 damkowanie(war, dwier, dkol);
                 dobry_ruch = true;
+
             }
             else
             {
-                cout << "Nie ma tam przeciwnika do zbicia." << endl << endl;
+                cout << "Niepoprawny ruch, sprobuj ponownie." << endl << endl;
                 continue;
             }
                  
