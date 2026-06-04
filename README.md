@@ -69,5 +69,4 @@ The checkers module includes:
 ├── XO.h
 ├── warcaby.cpp           # Checkers game logic, save/load system and SVG board
 ├── warcaby.h
-├── POP2025_domowe_v2.pdf # Original assignment description
 └── Raport_PP_PD.pdf      # Project report
