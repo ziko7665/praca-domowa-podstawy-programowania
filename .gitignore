@@ -1,4 +1,4 @@
 *.exe
 *.svg
-
+*.pdf
 .vscode/

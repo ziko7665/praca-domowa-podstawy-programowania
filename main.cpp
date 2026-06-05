@@ -1,6 +1,6 @@
-// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
 
-#include <iostream> 
+
+#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <string>
@@ -16,33 +16,25 @@
 
 using namespace std;
 
-
-
-
-
-
-
-
-
-
-int main() {
+int main()
+{
     string opcje;
     srand(time(nullptr));
 
     // Ustawienia domyslne gier
     bool war_graf = true;
-    bool war_ods  = false;
+    bool war_ods = false;
     bool XO_graf = true;
-    bool XO_ods  = false;
+    bool XO_ods = false;
     int XO_czas = 30;
 
-     system("cls");
+    system("cls");
     // Menu glowne
-        do
+    do
     {
-        wys( "\\\\\\\\\\\\\\\\ MENU GLOWNE ////////"); 
+        wys("\\\\\\\\\\\\\\\\ MENU GLOWNE ////////");
         cout << endl;
-        wys("- (1) Podstawowe SVG -"); 
+        wys("- (1) Podstawowe SVG -");
         wys("- (2) Zawansowane SVG -");
         wys("- (3) Gra w kolko i krzyzyk -");
         wys("- (4) Gra w warcaby - ");
@@ -50,19 +42,20 @@ int main() {
         wys("- (X) Wyjscie z programu -");
         cout << "Wybierz opcje: ";
         getline(cin >> ws, opcje);
-        if (opcje.empty()) continue; 
-        if(opcje.size() == 1 && (opcje[0] == '1' || opcje[0] == '2' || opcje[0] == '3' || opcje[0] == '4' || opcje[0] == 'H' || opcje[0] == 'h' || opcje[0] == 'X' || opcje[0] == 'x'))
+        if (opcje.empty())
+            continue;
+        if (opcje.size() == 1 && (opcje[0] == '1' || opcje[0] == '2' || opcje[0] == '3' || opcje[0] == '4' || opcje[0] == 'H' || opcje[0] == 'h' || opcje[0] == 'X' || opcje[0] == 'x'))
         {
 
-            switch (opcje[0]) 
-        {
+            switch (opcje[0])
+            {
             case '1':
                 system("cls");
                 svg_pod();
                 system("cls");
                 break;
 
-            case '2': 
+            case '2':
                 system("cls");
                 svg_zaw();
                 system("cls");
@@ -95,21 +88,14 @@ int main() {
                 system("cls");
                 cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
                 break;
-
-        
+            }
         }
-    }
-    else
-    {
-        system("cls");
-        cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
-    }
-    } while(opcje[0] != 'X' && opcje[0] != 'x');
-     system("cls");
+        else
+        {
+            system("cls");
+            cout << "Nieprawidlowa opcja. Sprobuj ponownie." << endl;
+        }
+    } while (opcje[0] != 'X' && opcje[0] != 'x');
+    system("cls");
     return 0;
 }
-
-
-
-
-

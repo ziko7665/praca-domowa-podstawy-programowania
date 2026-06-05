@@ -1,4 +1,4 @@
-// Maciej Zdeb s208293 ACiR gr.3 Zadanie domowe Podstawy Programowania 2025/26
+
 
 #include "funkcje.h"
 #include <algorithm>
@@ -9,10 +9,7 @@
 #include <vector>
 #include <cctype>
 
-
-
-
-int szer_cmd() 
+int szer_cmd()
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -21,35 +18,34 @@ int szer_cmd()
 
 //===================================================================================================================================================================
 
-void wys(const std::string& tekst) 
+void wys(const std::string &tekst)
 {
     int szerokosc = szer_cmd();
     int dlugosc = tekst.length();
     int spacje = (szerokosc - dlugosc) / 2;
-    if (spacje < 0) spacje = 0;
+    if (spacje < 0)
+        spacje = 0;
     std::cout << std::string(spacje, ' ') << tekst << std::endl;
 }
 
 //===================================================================================================================================================================
 
-int losuj_oddo(int min, int max) 
+int losuj_oddo(int min, int max)
 {
     return min + rand() % (max - min + 1);
 }
 
 //===================================================================================================================================================================
 
-int wczytaj_int(const std::string& komunikat) 
+int wczytaj_int(const std::string &komunikat)
 {
     int x;
     while (true)
     {
         std::cout << komunikat;
         if (std::cin >> x)
-        {   
-            return x;  
-                        
-
+        {
+            return x;
         }
 
         std::cout << "To nie jest liczba, sprobuj jeszcze raz" << std::endl;
@@ -59,9 +55,9 @@ int wczytaj_int(const std::string& komunikat)
 
 //===================================================================================================================================================================
 
-void pauza() 
+void pauza()
 {
-    
+
     wys("Nacisnij Enter, aby kontynuowac");
     std::string linia;
     std::getline(std::cin, linia);
@@ -69,7 +65,7 @@ void pauza()
 
 //===================================================================================================================================================================
 
-void czysc() 
+void czysc()
 {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -77,46 +73,42 @@ void czysc()
 
 //===================================================================================================================================================================
 
-void utnij_bialy_koniec(std::string& tekst) 
-{   
-    
-    while(!tekst.empty() && std ::isspace(tekst.back()))
+void utnij_bialy_koniec(std::string &tekst)
+{
+
+    while (!tekst.empty() && std ::isspace(tekst.back()))
     {
         tekst.pop_back();
     }
-    
-
 }
 
 //===================================================================================================================================================================
 
-bool pytanie_tak_nie(const std::string pytanie) 
+bool pytanie_tak_nie(const std::string pytanie)
 {
     std::string tn;
-    std::cout << pytanie << std::endl; 
-    while(true)
-    {   
-        
+    std::cout << pytanie << std::endl;
+    while (true)
+    {
+
         std::getline(std::cin >> std::ws, tn);
         utnij_bialy_koniec(tn);
-        for(int i = 0; i < tn.length(); i++)
+        for (int i = 0; i < tn.length(); i++)
         {
             tn[i] = std::tolower(tn[i]);
         }
-        if( tn == "tak")
+        if (tn == "tak")
         {
             return true;
         }
-        else if( tn == "nie")
+        else if (tn == "nie")
         {
             return false;
         }
-        else 
+        else
         {
             std::cout << "Wpisz tak/nie: ";
         }
-
-
     }
 }
 
@@ -125,98 +117,99 @@ bool pytanie_tak_nie(const std::string pytanie)
 void pomoc_menu()
 {
     system("cls");
-       while(true)
+    while (true)
     {
-    std::string tryb;
-    wys("\\\\\\\\\\\\\\\\ POMOC ////////");
-    wys("- (1) Pod. i Zaw. SVG -");
-    wys("- (2) Gra w Kolko i Krzyzyk -");
-    wys("- (3) Gra w Warcaby -");
-    wys("- (4) Ogolne informacje -");
-    wys("- (X) Powrot do MENU -");
-    std::cout << "Wybierz opcje: "; 
-    std::getline(std::cin >> std::ws, tryb);
-    if(tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == '4' || tryb[0] == 'X' || tryb[0] == 'x'))
-{
+        std::string tryb;
+        wys("\\\\\\\\\\\\\\\\ POMOC ////////");
+        wys("- (1) Pod. i Zaw. SVG -");
+        wys("- (2) Gra w Kolko i Krzyzyk -");
+        wys("- (3) Gra w Warcaby -");
+        wys("- (4) Ogolne informacje -");
+        wys("- (X) Powrot do MENU -");
+        std::cout << "Wybierz opcje: ";
+        std::getline(std::cin >> std::ws, tryb);
+        if (tryb.size() == 1 && (tryb[0] == '1' || tryb[0] == '2' || tryb[0] == '3' || tryb[0] == '4' || tryb[0] == 'X' || tryb[0] == 'x'))
+        {
 
-    switch (tryb[0])
-    {
-        case '1':
-            system("cls");
-            pomoc_SVG();
-            system("cls");
-            break;
+            switch (tryb[0])
+            {
+            case '1':
+                system("cls");
+                pomoc_SVG();
+                system("cls");
+                break;
 
-        case '2':
-            system("cls");
-            pomoc_XO();
-            system("cls");
-            break;
+            case '2':
+                system("cls");
+                pomoc_XO();
+                system("cls");
+                break;
 
-        case '3':
-            system("cls");
-            pomoc_Warcaby();
-            system("cls");
-            break;
+            case '3':
+                system("cls");
+                pomoc_Warcaby();
+                system("cls");
+                break;
 
-        case '4':
-            system("cls");
-            pomoc_ogolna();
-            system("cls");
-            break;
+            case '4':
+                system("cls");
+                pomoc_ogolna();
+                system("cls");
+                break;
 
-        case 'X':
-        case 'x':
-            return;
+            case 'X':
+            case 'x':
+                return;
 
-    default:
-        system("cls");
-        std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
-        break;
+            default:
+                system("cls");
+                std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
+                break;
+            }
+        }
+        else
+        {
+            system("cls");
+            std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
+        }
     }
-    }
-    else
-    {
-        system("cls");
-        std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
-    }
-}
 }
 
 //===================================================================================================================================================================
 
-std::string wybor_koloru() 
+std::string wybor_koloru()
 {
     std::string nrkoloru;
-    std::string kolor; 
-    std::cout << "(1) czerwony" << std::endl; 
-    std::cout << "(2) niebieski" << std::endl; 
-    std::cout << "(3) zielony" << std::endl; 
-    std::cout << "(4) czarny" << std::endl; 
+    std::string kolor;
+    std::cout << "(1) czerwony" << std::endl;
+    std::cout << "(2) niebieski" << std::endl;
+    std::cout << "(3) zielony" << std::endl;
+    std::cout << "(4) czarny" << std::endl;
     std::cout << "(5) secret" << std::endl;
-    while(true)
+    while (true)
     {
         std::getline(std::cin >> std::ws, nrkoloru);
-        if(nrkoloru.size() == 1 && (nrkoloru[0] >= '1' && nrkoloru[0] <= '5'))
+        if (nrkoloru.size() == 1 && (nrkoloru[0] >= '1' && nrkoloru[0] <= '5'))
         {
-         switch (nrkoloru[0])
+            switch (nrkoloru[0])
             {
-                case '1':
-                    kolor = "red";  
-                    break;
-                case '2': 
-                    kolor = "blue";
-                    break;
-                 case '3':
-                    kolor = "green";
-                    break;
-                case '4':
-                    kolor = "black";
-                    break;
-                case '5':
-                {
-                    std::vector<std::string> sekretnykolor = 
-                    {   "purple",
+            case '1':
+                kolor = "red";
+                break;
+            case '2':
+                kolor = "blue";
+                break;
+            case '3':
+                kolor = "green";
+                break;
+            case '4':
+                kolor = "black";
+                break;
+            case '5':
+            {
+                std::vector<std::string> sekretnykolor =
+                    {
+                        "purple",
                         "darkorange",
                         "brown",
                         "darkgreen",
@@ -227,13 +220,13 @@ std::string wybor_koloru()
                         "deeppink",
                         "orange",
                     };
-                    int losowa = rand() % sekretnykolor.size();
-                    kolor = sekretnykolor[losowa];
-                    break;
-                }
-                default:
-                    std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
-                    continue;
+                int losowa = rand() % sekretnykolor.size();
+                kolor = sekretnykolor[losowa];
+                break;
+            }
+            default:
+                std::cout << "Nieprawidlowa opcja. Sprobuj ponownie." << std::endl;
+                continue;
             }
             return kolor;
         }
@@ -248,7 +241,7 @@ std::string wybor_koloru()
 
 //===================================================================================================================================================================
 
-void pomoc_SVG() 
+void pomoc_SVG()
 {
     system("cls");
     wys("### INSTRUKCJA DO SVG ###");
@@ -283,8 +276,8 @@ void pomoc_SVG()
     pauza();
 }
 
- void pomoc_XO() 
- {
+void pomoc_XO()
+{
     wys("### INSTRUKCJA DO GRY KOLKO I KRZYZYK ###");
     std::cout << std::endl;
     wys("- Gra toczy sie na planszy 3x3 pola.");
@@ -325,7 +318,7 @@ void pomoc_SVG()
     wys("W przypadku trybu Gracz VS PC, czas wyswietla sie tylko dla gracza.");
     std::cout << std::endl;
     wys("# PLIK SVG DO GRY #");
-    std::cout << std::endl; 
+    std::cout << std::endl;
     wys("W trakcie gry generowany jest plik SVG,");
     wys("ktory wizualizuje aktualny stan planszy gry w kolko i krzyzyk.");
     wys("Plik ten jest nadpisywany przy kazdym ruchu gracza i nalezy odswierzyc, aby zobaczyć zmiany.");
@@ -335,9 +328,10 @@ void pomoc_SVG()
     wys("nowa karte z aktualnym stanem gry.");
     std::cout << std::endl;
     wys("MILEJ ZABAWY!!!");
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
     pauza();
- }
+}
 
 void pomoc_Warcaby()
 {
@@ -406,7 +400,8 @@ void pomoc_Warcaby()
     std::cout << std::endl;
 
     wys("MILEJ ZABAWY!!!");
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
     pauza();
 }
 
@@ -443,7 +438,6 @@ void pomoc_ogolna()
     wys("Opcja odswiezania automatycznego otwieraa plik SVG po kazdym ruchu");
     wys("Jesli to przeszkadza mozna to wylaczyc w ustawieniach danej gry");
     std::cout << std::endl;
-
 
     pauza();
 }
